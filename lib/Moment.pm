@@ -406,10 +406,14 @@ sub cmp {
 sub plus {
     my ($self, %params) = @_;
 
-    my $day = delete $params{day} // 0;
-    my $hour = delete $params{hour} // 0;
-    my $minute= delete $params{minute} // 0;
-    my $second = delete $params{second} // 0;
+    my $day = delete $params{day};
+    $day = 0 if not defined $day;
+    my $hour = delete $params{hour};
+    $hour = 0 if not defined $hour;
+    my $minute = delete $params{minute};
+    $minute = 0 if not defined $minute;
+    my $second = delete $params{second};
+    $second = 0 if not defined $second;
 
     if (%params) {
         croak "Got unknown params: ", join (keys %params) . ".";
@@ -434,10 +438,14 @@ sub plus {
 sub minus {
     my ($self, %params) = @_;
 
-    my $day = delete $params{day} // 0;
-    my $hour = delete $params{hour} // 0;
-    my $minute= delete $params{minute} // 0;
-    my $second = delete $params{second} // 0;
+    my $day = delete $params{day};
+    $day = 0 if not defined $day;
+    my $hour = delete $params{hour};
+    $hour = 0 if not defined $hour;
+    my $minute = delete $params{minute};
+    $minute = 0 if not defined $minute;
+    my $second = delete $params{second};
+    $second = 0 if not defined $second;
 
     if (%params) {
         croak "Got unknown params: ", join (keys %params) . ".";
