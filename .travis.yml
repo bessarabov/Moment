@@ -2,6 +2,10 @@ language: perl
 
 install: echo 'nothing to install'
 
+before_install: cpanm --notest Devel::Cover::Report::Coveralls
+
+script: echo -e "test:\n\tprove -l" > Makefile; cover -test -report coveralls
+
 script: prove -lv t
 
 perl:
