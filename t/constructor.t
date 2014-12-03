@@ -22,7 +22,7 @@ sub check__new__fields {
         second => 0,
     );
 
-    is( $moment->get_dt(), '2014-11-04 12:55:00', 'fields' );
+    is( $moment->get_dt(), '2012-11-04 12:55:00', 'fields' );
 }
 
 sub check__new__timestamp {

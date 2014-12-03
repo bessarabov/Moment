@@ -19,7 +19,7 @@ sub main_in_test {
     is($moment->get_minute(), 44, 'get_minute()');
     is($moment->get_second(), 10, 'get_second()');
 
-    ok($moment->is_saturday(), 'is_saturday()'));
+    ok($moment->is_saturday(), 'is_saturday()');
     is($moment->get_weekday_name(), 'saturday');
 
     is($moment->get_month_start()->get_dt(), '2014-11-01 00:00:00', 'get_month_start()');
