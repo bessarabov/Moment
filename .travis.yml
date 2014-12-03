@@ -1,5 +1,7 @@
 language: perl
 
+install: echo 'nothing to install'
+
 script: prove -lv t
 
 perl:
