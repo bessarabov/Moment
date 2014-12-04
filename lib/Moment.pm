@@ -559,4 +559,32 @@ sub _data_printer {
     return Term::ANSIColor::colored($self->get_dt() . ' UTC', 'bright_green');
 }
 
+=head1 SAMPLE USAGE
+
+Find the last day of the current month (for december 2014 it is 31):
+
+    my $day = Moment->now()->get_month_end()->get_day();
+
+Loop for every day in month:
+
+    my $start = Moment->now()->get_month_start();
+    my $end = $start->get_month_end();
+
+    my $current = $start;
+    while ( $current->cmp($end) == -1 ) {
+        say $current->get_day();
+        $current = $current->plus( day => 1 );
+    }
+
+Find out the weekday name for given date (for 2014-01-01 is is wednesday):
+
+    my $weekday = Moment->new( dt => '2014-01-01 00:00:00' )->get_weekday_name();
+
+Find out how many seconds in one day (the answer is 86400):
+
+    my $moment = Moment->now();
+    my $seconds_in_a_day = $moment->get_timestamp() - $moment->minus( day => 1 )->get_timestamp();
+
+=cut
+
 1;
