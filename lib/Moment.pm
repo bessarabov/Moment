@@ -104,6 +104,8 @@ And you can create new objects:
 
 =item * No dependencies, but perl
 
+=item * Plays well with Data::Printer
+
 =item * Using SemVer for version numbers
 
 =back
@@ -546,6 +548,15 @@ sub _get_weekday_name {
         = gmtime($timestamp);
 
     return $wday2name{$wday};
+}
+
+# https://metacpan.org/pod/Data::Printer#MAKING-YOUR-CLASSES-DDP-AWARE-WITHOUT-ADDING-ANY-DEPS
+sub _data_printer {
+    my ($self, $properties) = @_;
+
+    require Term::ANSIColor;
+
+    return Term::ANSIColor::colored($self->get_dt() . ' UTC', 'bright_green');
 }
 
 1;
