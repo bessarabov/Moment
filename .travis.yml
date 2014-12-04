@@ -2,9 +2,9 @@ language: perl
 
 install: echo 'nothing to install'
 
-before_install: cpanm --notest Devel::Cover::Report::Coveralls
+before_install: cpanm --notest Devel::Cover::Report::Coveralls Test::MockTime
 
-script: echo -e "test:\n\tprove -l" > Makefile; cover -test -report coveralls
+script: echo -e "test:\n\tprove -l t xt" > Makefile; cover -test -report coveralls
 
 perl:
   - "5.8"

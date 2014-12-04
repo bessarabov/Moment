@@ -237,6 +237,29 @@ sub new {
     return $self;
 }
 
+=head1 now()
+
+Constructor. Creates new Moment object that points to the current moment
+of time.
+
+    my $current_moment = Moment->now();
+
+=cut
+
+sub now {
+    my ($class, %params) = @_;
+
+    if (%params) {
+        croak "Got unknown params: ", join (keys %params) . ".";
+    }
+
+    my $self = Moment->new(
+        timestamp => time(),
+    );
+
+    return $self;
+};
+
 =head1 get_timestamp
 
 =cut
