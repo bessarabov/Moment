@@ -556,7 +556,7 @@ sub _data_printer {
 
     require Term::ANSIColor;
 
-    return Term::ANSIColor::colored($self->get_dt() . ' UTC', 'bright_green');
+    return Term::ANSIColor::colored($self->get_dt() . ' UTC', 'yellow');
 }
 
 =head1 SAMPLE USAGE
