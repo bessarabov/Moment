@@ -9,7 +9,7 @@ sub main_in_test {
 
     throws_ok(
         sub { Moment->new(); },
-        qr{Incorrect usage\. new\(\) must get some params: dt, timestamp or year/month/day/hour/minute/secod\.},
+        qr{Incorrect usage\. new\(\) must get some params: dt, timestamp or year/month/day/hour/minute/secod\. Stopped at},
         'new()',
     );
 
@@ -20,7 +20,7 @@ sub main_in_test {
                 dt => "2014-12-05 00:00:00",
             );
         },
-        qr{Incorrect usage\. new\(\) must get only one thing from the list: dt, timestamp or year/month/day/hour/minute/secod\.},
+        qr{Incorrect usage\. new\(\) must get only one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
         'new( timestamp => ..., dt => ... )',
     );
 

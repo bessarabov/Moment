@@ -277,9 +277,9 @@ sub new {
     if ($way == 1) {
         # this is the correct usage of new()
     } elsif ($way == 0) {
-        croak "Incorrect usage. new() must get some params: dt, timestamp or year/month/day/hour/minute/secod."
+        croak "Incorrect usage. new() must get some params: dt, timestamp or year/month/day/hour/minute/secod. Stopped"
     } else {
-        croak "Incorrect usage. new() must get only one thing from the list: dt, timestamp or year/month/day/hour/minute/secod."
+        croak "Incorrect usage. new() must get only one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped"
     }
 
     $self->{_weekday_name} = $self->_get_weekday_name($self->{_timestamp});
