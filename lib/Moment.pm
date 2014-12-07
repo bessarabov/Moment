@@ -761,7 +761,7 @@ sub get_month_end {
     my ($self) = @_;
 
     my $last_day = Time::Piece->strptime(
-        $self->get_month() . $self->get_year(),
+        sprintf("%02d%04d", $self->get_month(), $self->get_year()),
         "%m%Y",
     )->month_last_day();
 
