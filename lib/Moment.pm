@@ -177,12 +177,12 @@ sub new {
             croak "Must specify all params: year, month, day, hour, minute, second";
         }
 
-        $self->{_year} = $input_year;
-        $self->{_month} = $input_month;
-        $self->{_day} = $input_day;
-        $self->{_hour} = $input_hour;
-        $self->{_minute} = $input_minute;
-        $self->{_second} = $input_second;
+        $self->{_year} = $input_year + 0;
+        $self->{_month} = $input_month + 0;
+        $self->{_day} = $input_day + 0;
+        $self->{_hour} = $input_hour + 0;
+        $self->{_minute} = $input_minute + 0;
+        $self->{_second} = $input_second + 0;
 
         $self->{_timestamp} = timegm(
             $self->{_second},
@@ -216,6 +216,13 @@ sub new {
             $self->{_minute},
             $self->{_second},
         ) = split(/[\s:-]+/, $input_dt);
+
+        $self->{_year} += 0;
+        $self->{_month} += 0;
+        $self->{_day} += 0;
+        $self->{_hour} += 0;
+        $self->{_minute} += 0;
+        $self->{_second} += 0;
 
         $self->{_timestamp} = timegm(
             $self->{_second},
