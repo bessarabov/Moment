@@ -45,6 +45,12 @@ sub main_in_test {
     );
 
     throws_ok(
+        sub { Moment->plus( month => 1 ); },
+        qr{Incorrect usage\. plus\(\) got unknown params: 'month'\. Stopped at},
+        'plus( month => 1 )',
+    );
+
+    throws_ok(
         sub { Moment->minus(); },
         qr{Incorrect usage\. minus\(\) must get some params. Stopped at},
         'minus()',
@@ -54,6 +60,12 @@ sub main_in_test {
         sub { Moment->minus( 123 ); },
         qr{Incorrect usage\. minus\(\) must get hash like: `minus\( hour => 1 \)`\. Stopped at},
         'minus( 123 )',
+    );
+
+    throws_ok(
+        sub { Moment->minus( month => 1 ); },
+        qr{Incorrect usage\. minus\(\) got unknown params: 'month'\. Stopped at},
+        'minus( month => 1)',
     );
 
     done_testing;

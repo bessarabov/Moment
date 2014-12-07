@@ -611,7 +611,7 @@ sub plus {
     $second = 0 if not defined $second;
 
     if (%params) {
-        croak "Got unknown params: ", join (keys %params) . ".";
+        croak "Incorrect usage. plus() got unknown params: '" . join("', '", (sort keys %params)) . "'. Stopped";
     }
 
     my $new_timestamp = $self->get_timestamp()
@@ -675,7 +675,7 @@ sub minus {
     $second = 0 if not defined $second;
 
     if (%params) {
-        croak "Got unknown params: ", join (keys %params) . ".";
+        croak "Incorrect usage. minus() got unknown params: '" . join("', '", (sort keys %params)) . "'. Stopped";
     }
 
     my $new_timestamp = $self->get_timestamp()
