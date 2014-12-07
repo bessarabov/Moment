@@ -154,7 +154,17 @@ Dies in case of errors.
 =cut
 
 sub new {
-    my ($class, %params) = @_;
+    my ($class, @params) = @_;
+
+    if (@params == 0) {
+        croak "Incorrect usage. new() must get some params: dt, timestamp or year/month/day/hour/minute/secod. Stopped"
+    }
+
+    if (@params % 2 != 0) {
+        croak 'Incorrect usage. new() must get hash like: `new( timestamp => 0 )`. Stopped';
+    }
+
+    my %params = @params;
 
     my $self = {};
     bless $self, $class;
@@ -171,7 +181,7 @@ sub new {
     my $input_timestamp = delete $params{timestamp};
 
     if (%params) {
-        croak "Got unknown params: ", join (keys %params) . ".";
+        croak "Incorrect usage. new() got unknown params: '" . join("', '", (sort keys %params)) . "'. Stopped";
     }
 
     my $way = 0;

@@ -14,6 +14,24 @@ sub main_in_test {
     );
 
     throws_ok(
+        sub { Moment->new( 123 ); },
+        qr{Incorrect usage\. new\(\) must get hash like: `new\( timestamp => 0 \)`\. Stopped at},
+        'new( 123 )',
+    );
+
+    throws_ok(
+        sub { Moment->new( week => 4 ); },
+        qr{Incorrect usage\. new\(\) got unknown params: 'week'\. Stopped at},
+        'new( week => 4 )',
+    );
+
+    throws_ok(
+        sub { Moment->new( week => 4, century => 8 ); },
+        qr{Incorrect usage\. new\(\) got unknown params: 'century', 'week'\. Stopped at},
+        'new( week => 4, century => 8 )',
+    );
+
+    throws_ok(
         sub {
             my $n = Moment->new(
                 timestamp => 0,
