@@ -310,7 +310,7 @@ sub now {
     return $self;
 };
 
-=head1 get_timestamp
+=head1 get_timestamp()
 
 Returns the timestamp of the moment stored in the object.
 
@@ -331,7 +331,7 @@ sub get_timestamp {
     return $self->{_timestamp};
 }
 
-=head1 get_dt
+=head1 get_dt()
 
 Returns the scalar with date and time of the moment stored in the object.
 The data in scalar is in format 'YYYY-MM-DD hh:mm:ss'.
@@ -345,7 +345,7 @@ sub get_dt {
     return $self->{_dt};
 }
 
-=head1 get_year
+=head1 get_year()
 
 Returns the scalar with year of the moment stored in the object.
 
@@ -358,7 +358,7 @@ sub get_year {
     return $self->{_year};
 }
 
-=head1 get_month
+=head1 get_month()
 
 Returns the scalar with number of month of the moment stored in the object.
 
@@ -373,7 +373,7 @@ sub get_month {
     return $self->{_month};
 }
 
-=head1 get_day
+=head1 get_day()
 
 Returns the scalar with number of day since the beginning of mongth of the
 moment stored in the object.
@@ -389,7 +389,7 @@ sub get_day {
     return $self->{_day};
 }
 
-=head1 get_hour
+=head1 get_hour()
 
 Returns the scalar with hour of the moment stored in the object.
 
@@ -404,7 +404,7 @@ sub get_hour {
     return $self->{_hour};
 }
 
-=head1 get_minute
+=head1 get_minute()
 
 Returns the scalar with minute of the moment stored in the object.
 
@@ -419,7 +419,7 @@ sub get_minute {
     return $self->{_minute};
 }
 
-=head1 get_second
+=head1 get_second()
 
 Returns the scalar with second of the moment stored in the object.
 
@@ -434,7 +434,7 @@ sub get_second {
     return $self->{_second};
 }
 
-=head1 get_weekday_name
+=head1 get_weekday_name()
 
 Return scalar with the weekday name. Here is the full list of strings that
 this method can return: 'monday', 'tuesday', 'wednesday', 'thursday',
@@ -450,7 +450,7 @@ sub get_weekday_name {
     return $self->{_weekday_name};
 }
 
-=head1 is_monday
+=head1 is_monday()
 
 Returns true value is the weekday of the moment is monday. Otherwise returns
 false value.
@@ -463,7 +463,7 @@ sub is_monday {
     return $self->get_weekday_name() eq 'monday';
 }
 
-=head1 is_tuesday
+=head1 is_tuesday()
 
 Returns true value is the weekday of the moment is tuesday. Otherwise returns
 false value.
@@ -476,7 +476,7 @@ sub is_tuesday {
     return $self->get_weekday_name() eq 'tuesday';
 }
 
-=head1 is_wednesday
+=head1 is_wednesday()
 
 Returns true value is the weekday of the moment is wednesday. Otherwise returns
 false value.
@@ -489,7 +489,7 @@ sub is_wednesday {
     return $self->get_weekday_name() eq 'wednesday';
 }
 
-=head1 is_thursday
+=head1 is_thursday()
 
 Returns true value is the weekday of the moment is thursday. Otherwise returns
 false value.
@@ -502,7 +502,7 @@ sub is_thursday {
     return $self->get_weekday_name() eq 'thursday';
 }
 
-=head1 is_friday
+=head1 is_friday()
 
 Returns true value is the weekday of the moment is friday. Otherwise returns
 false value.
@@ -515,7 +515,7 @@ sub is_friday {
     return $self->get_weekday_name() eq 'friday';
 }
 
-=head1 is_saturday
+=head1 is_saturday()
 
 Returns true value is the weekday of the moment is saturday. Otherwise returns
 false value.
@@ -528,7 +528,7 @@ sub is_saturday {
     return $self->get_weekday_name() eq 'saturday';
 }
 
-=head1 is_sunday
+=head1 is_sunday()
 
 Returns true value is the weekday of the moment is sunday. Otherwise returns
 false value.
@@ -541,7 +541,7 @@ sub is_sunday {
     return $self->get_weekday_name() eq 'sunday';
 }
 
-=head1 cmp
+=head1 cmp()
 
 Method to compare 2 object. It works exactly as perl builtin 'cmp' keyword.
 
@@ -562,7 +562,7 @@ sub cmp {
     return $self->get_timestamp() <=> $moment_2->get_timestamp();
 }
 
-=head1 plus
+=head1 plus()
 
 Method plus() returns new Moment object that differ from the original to the
 specified time.
@@ -616,7 +616,7 @@ sub plus {
     return $new_moment;
 }
 
-=head1 minus
+=head1 minus()
 
 Method minus() returns new Moment object that differ from the original to the
 specified time.
@@ -670,7 +670,7 @@ sub minus {
     return $new_moment;
 }
 
-=head1 get_month_start
+=head1 get_month_start()
 
 Method get_month_start() returns new Moment object that points to the moment
 the month starts.
@@ -697,7 +697,7 @@ sub get_month_start {
     return $start;
 }
 
-=head1 get_month_end
+=head1 get_month_end()
 
 Method get_month_end() returns new Moment object that points to the moment
 the month end.
