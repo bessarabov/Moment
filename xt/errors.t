@@ -24,6 +24,14 @@ sub main_in_test {
         'new( timestamp => ..., dt => ... )',
     );
 
+    throws_ok(
+        sub {
+            my $n = Moment->now( 123 );
+        },
+        qr{Incorrect usage\. now\(\) shouldn't get any params. Stopped at},
+        'now( 123 )',
+    );
+
     done_testing;
 
 }

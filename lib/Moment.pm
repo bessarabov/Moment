@@ -297,10 +297,10 @@ of time.
 =cut
 
 sub now {
-    my ($class, %params) = @_;
+    my ($class, @params) = @_;
 
-    if (%params) {
-        croak "Got unknown params: ", join (keys %params) . ".";
+    if (@params) {
+        croak 'Incorrect usage. now() shouldn\'t get any params. Stopped';
     }
 
     my $self = Moment->new(
