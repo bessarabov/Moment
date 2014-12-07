@@ -32,6 +32,30 @@ sub main_in_test {
         'now( 123 )',
     );
 
+    throws_ok(
+        sub { Moment->plus(); },
+        qr{Incorrect usage\. plus\(\) must get some params. Stopped at},
+        'plus()',
+    );
+
+    throws_ok(
+        sub { Moment->plus( 123 ); },
+        qr{Incorrect usage\. plus\(\) must get hash like: `plus\( hour => 1 \)`\. Stopped at},
+        'plus( 123 )',
+    );
+
+    throws_ok(
+        sub { Moment->minus(); },
+        qr{Incorrect usage\. minus\(\) must get some params. Stopped at},
+        'minus()',
+    );
+
+    throws_ok(
+        sub { Moment->minus( 123 ); },
+        qr{Incorrect usage\. minus\(\) must get hash like: `minus\( hour => 1 \)`\. Stopped at},
+        'minus( 123 )',
+    );
+
     done_testing;
 
 }

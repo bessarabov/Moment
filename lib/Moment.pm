@@ -589,7 +589,17 @@ Here is an example:
 =cut
 
 sub plus {
-    my ($self, %params) = @_;
+    my ($self, @params) = @_;
+
+    if (@params == 0) {
+        croak 'Incorrect usage. plus() must get some params. Stopped';
+    }
+
+    if (@params % 2 != 0) {
+        croak 'Incorrect usage. plus() must get hash like: `plus( hour => 1 )`. Stopped';
+    }
+
+    my %params = @params;
 
     my $day = delete $params{day};
     $day = 0 if not defined $day;
@@ -643,7 +653,17 @@ Here is an example:
 =cut
 
 sub minus {
-    my ($self, %params) = @_;
+    my ($self, @params) = @_;
+
+    if (@params == 0) {
+        croak 'Incorrect usage. minus() must get some params. Stopped';
+    }
+
+    if (@params % 2 != 0) {
+        croak 'Incorrect usage. minus() must get hash like: `minus( hour => 1 )`. Stopped';
+    }
+
+    my %params = @params;
 
     my $day = delete $params{day};
     $day = 0 if not defined $day;
