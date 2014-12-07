@@ -51,6 +51,12 @@ sub main_in_test {
     );
 
     throws_ok(
+        sub { Moment->plus( month => 1, year => 2, aa => 3 ); },
+        qr{Incorrect usage\. plus\(\) got unknown params: 'aa', 'month', 'year'\. Stopped at},
+        'plus( month => 1, year => 2, aa => 3 )',
+    );
+
+    throws_ok(
         sub { Moment->minus(); },
         qr{Incorrect usage\. minus\(\) must get some params. Stopped at},
         'minus()',
@@ -66,6 +72,12 @@ sub main_in_test {
         sub { Moment->minus( month => 1 ); },
         qr{Incorrect usage\. minus\(\) got unknown params: 'month'\. Stopped at},
         'minus( month => 1)',
+    );
+
+    throws_ok(
+        sub { Moment->minus( month => 1, year => 2, aa => 3 ); },
+        qr{Incorrect usage\. minus\(\) got unknown params: 'aa', 'month', 'year'\. Stopped at},
+        'minus( month => 1, year => 2, aa => 3 )',
     );
 
     done_testing;
