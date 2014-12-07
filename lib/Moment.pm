@@ -77,6 +77,10 @@ Or you can test if the weekday of the moment is some specified weekday:
     $moment->is_saturday();
     $moment->is_sunday();
 
+You can test if the year of the moment is leap with the method:
+
+    $moment->is_leap_year();
+
 If you have 2 Moment objects you can compare them with the cmp() method. The
 method cmp() works exaclty as cmp builtin keyword and returns -1, 0, or 1:
 
@@ -547,6 +551,22 @@ sub is_sunday {
     my ($self) = @_;
 
     return $self->get_weekday_name() eq 'sunday';
+}
+
+=head1 is_leap_year()
+
+Returns true value is the year of the moment is leap. Otherwise returns
+false value.
+
+=cut
+
+sub is_leap_year {
+    my ($self) = @_;
+
+    return '' if $self->get_year() % 4;
+    return 1 if $self->get_year() % 100;
+    return '' if $self->get_year() % 400;
+    return 1;
 }
 
 =head1 cmp()
