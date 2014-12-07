@@ -1,6 +1,6 @@
 package Moment;
 
-# ABSTRACT: working with UTC based time
+# ABSTRACT: class that represents the moment in time
 
 use strict;
 use warnings FATAL => 'all';
@@ -14,9 +14,13 @@ use Time::Piece;
 
 =head1 SYNOPSIS
 
-First you need to create and object with the constuctor new():
+Moment is a Perl library. With this library you can create object that
+represent some moment in time.
+
+There are 3 ways you can create new object with the new() constuctor:
 
     my $some_moment = Moment->new(
+        # dt format is 'YYYY-MM-DD hh:mm:ss'
         dt => '2014-11-27 03:31:23',
     );
 
@@ -31,19 +35,20 @@ First you need to create and object with the constuctor new():
     );
 
     my $one_more_moment = Moment->new(
+        # Unix time (a.k.a. POSIX time or Epoch time)
         timestamp => 1000000000,
     );
 
-Or you can use now() to create object that points to the current moment:
+You can also use now() constroctor to create object that points to the current
+moment in time:
 
     my $now = Moment->now();
 
-Then you can use this methods that return scalar values:
+When you have an object you can you use methods from it.
 
-    # Unix time (a.k.a. POSIX time or Epoch time)
-    my $number = $moment->get_timestamp();
+Here are the methods to get the values that was used in constructor:
 
-    # '2014-11-27 03:31:23'
+    #'2014-11-27 03:31:23'
     my $dt = $moment->get_dt();
 
     my $year = $moment->get_year();
@@ -53,10 +58,16 @@ Then you can use this methods that return scalar values:
     my $minute = $moment->get_minute();
     my $second = $moment->get_second();
 
+    # Unix time (a.k.a. POSIX time or Epoch time)
+    my $number = $moment->get_timestamp();
+
+You can find out what is the day of week of time moment that is stored in the
+object. You can get scalar with the weekday:
+
     # 'monday', 'tuesday' and others
     my $string = $moment->get_weekday_name();
 
-Methods that return bool value:
+Or you can test if the weekday of the moment is some specified weekday:
 
     $moment->is_monday();
     $moment->is_tuesday();
@@ -66,15 +77,17 @@ Methods that return bool value:
     $moment->is_saturday();
     $moment->is_sunday();
 
-    # returns true is the year of the moment is leap
-    $moment->is_leap_year();
+If you have 2 Moment objects you can compare them with the cmp() method. The
+method cmp() works exaclty as cmp builtin keyword and returns -1, 0, or 1:
 
-You can compare 2 objects (the method cmp() works exaclty as cmp operato and
-returns -1, 0, or 1):
+    my $result = $moment_1->cmp($moment_2);
 
-    my $result = $moment->cmp($moment2);
+The Moment object is immutable. You can't change it after it is created. But
+you can create new objects with the methods plus(), minus() and
+get_month_start(), get_month_end():
 
-And you can create new objects:
+    my $in_one_day = $moment->plus( day => 1 );
+    my $ten_seconds_before = $moment->minus( second => 10 );
 
     # create object with the moment '2014-11-01 00:00:00'
     my $moment = Moment->new(dt => '2014-11-27 03:31:23')->get_month_start();
@@ -82,10 +95,9 @@ And you can create new objects:
     # create object with the moment '2014-11-30 23:59:59'
     my $moment = Moment->new(dt => '2014-11-27 03:31:23')->get_month_end();
 
-    my $in_one_day = $moment->plus( day => 1 );
-    my $one_year_before = $moment->minus( second => 1 );
-
 =head1 DESCRIPTION
+
+Features and limitations of this library:
 
 =over
 
@@ -113,6 +125,31 @@ And you can create new objects:
 =cut
 
 =head1 new()
+
+Constructor. Creates new Moment object that points to the specified moment
+of time. Can be used in 3 different ways:
+
+    my $some_moment = Moment->new(
+        # dt format is 'YYYY-MM-DD hh:mm:ss'
+        dt => '2014-11-27 03:31:23',
+    );
+
+    my $other_moment = Moment->new(
+        year => 2014,
+        month => 1,
+        day => 3,
+
+        hour => 4,
+        minute => 2,
+        second => 10,
+    );
+
+    my $one_more_moment = Moment->new(
+        # Unix time (a.k.a. POSIX time or Epoch time)
+        timestamp => 1000000000,
+    );
+
+Dies in case of errors.
 
 =cut
 
@@ -275,6 +312,18 @@ sub now {
 
 =head1 get_timestamp
 
+Returns the timestamp of the moment stored in the object.
+
+The timestamp is also known as Unix time, POSIX time, Epoch time.
+
+This is the number of seconds passed from '1970-01-01 00:00:00'.
+
+This number can be negative.
+
+    say Moment->new( dt => '1970-01-01 00:00:00' )->get_timestamp(); # 0
+    say Moment->new( dt => '2000-01-01 00:00:00' )->get_timestamp(); # 946684800
+    say Moment->new( dt => '1960-01-01 00:00:00' )->get_timestamp(); # -315619200
+
 =cut
 
 sub get_timestamp {
@@ -283,6 +332,11 @@ sub get_timestamp {
 }
 
 =head1 get_dt
+
+Returns the scalar with date and time of the moment stored in the object.
+The data in scalar is in format 'YYYY-MM-DD hh:mm:ss'.
+
+    say Moment->now()->get_dt(); # 2014-12-07 11:50:57
 
 =cut
 
@@ -293,6 +347,10 @@ sub get_dt {
 
 =head1 get_year
 
+Returns the scalar with year of the moment stored in the object.
+
+    say Moment->now()->get_year(); # 2014
+
 =cut
 
 sub get_year {
@@ -301,6 +359,12 @@ sub get_year {
 }
 
 =head1 get_month
+
+Returns the scalar with number of month of the moment stored in the object.
+
+    say Moment->now()->get_month(); # 12
+
+Method return '9', not '09'.
 
 =cut
 
@@ -311,6 +375,13 @@ sub get_month {
 
 =head1 get_day
 
+Returns the scalar with number of day since the beginning of mongth of the
+moment stored in the object.
+
+    say Moment->now()->get_day(); # 7
+
+Method return '7', not '07'.
+
 =cut
 
 sub get_day {
@@ -319,6 +390,12 @@ sub get_day {
 }
 
 =head1 get_hour
+
+Returns the scalar with hour of the moment stored in the object.
+
+    say Moment->now()->get_hour(); # 11
+
+Method return '9', not '09'.
 
 =cut
 
@@ -329,6 +406,12 @@ sub get_hour {
 
 =head1 get_minute
 
+Returns the scalar with minute of the moment stored in the object.
+
+    say Moment->now()->get_hour(); # 50
+
+Method return '9', not '09'.
+
 =cut
 
 sub get_minute {
@@ -338,6 +421,12 @@ sub get_minute {
 
 =head1 get_second
 
+Returns the scalar with second of the moment stored in the object.
+
+    say Moment->now()->get_second(); # 57
+
+Method return '9', not '09'.
+
 =cut
 
 sub get_second {
@@ -346,6 +435,12 @@ sub get_second {
 }
 
 =head1 get_weekday_name
+
+Return scalar with the weekday name. Here is the full list of strings that
+this method can return: 'monday', 'tuesday', 'wednesday', 'thursday',
+'friday', 'saturday', 'sunday'.
+
+    say Moment->now()->get_weekday_name(); # sunday
 
 =cut
 
@@ -357,6 +452,9 @@ sub get_weekday_name {
 
 =head1 is_monday
 
+Returns true value is the weekday of the moment is monday. Otherwise returns
+false value.
+
 =cut
 
 sub is_monday {
@@ -366,6 +464,9 @@ sub is_monday {
 }
 
 =head1 is_tuesday
+
+Returns true value is the weekday of the moment is tuesday. Otherwise returns
+false value.
 
 =cut
 
@@ -377,6 +478,9 @@ sub is_tuesday {
 
 =head1 is_wednesday
 
+Returns true value is the weekday of the moment is wednesday. Otherwise returns
+false value.
+
 =cut
 
 sub is_wednesday {
@@ -386,6 +490,9 @@ sub is_wednesday {
 }
 
 =head1 is_thursday
+
+Returns true value is the weekday of the moment is thursday. Otherwise returns
+false value.
 
 =cut
 
@@ -397,6 +504,9 @@ sub is_thursday {
 
 =head1 is_friday
 
+Returns true value is the weekday of the moment is friday. Otherwise returns
+false value.
+
 =cut
 
 sub is_friday {
@@ -406,6 +516,9 @@ sub is_friday {
 }
 
 =head1 is_saturday
+
+Returns true value is the weekday of the moment is saturday. Otherwise returns
+false value.
 
 =cut
 
@@ -417,6 +530,9 @@ sub is_saturday {
 
 =head1 is_sunday
 
+Returns true value is the weekday of the moment is sunday. Otherwise returns
+false value.
+
 =cut
 
 sub is_sunday {
@@ -427,6 +543,17 @@ sub is_sunday {
 
 =head1 cmp
 
+Method to compare 2 object. It works exactly as perl builtin 'cmp' keyword.
+
+    my $result = $moment_1->cmp($moment_2);
+
+It returns -1, 0, or 1 depending on whether the $moment_1 is stringwise less
+than, equal to, or greater than the $moment_2
+
+    say Moment->new(dt=>'1970-01-01 00:00:00')->cmp( Moment->new(dt=>'2000-01-01 00:00') ); # -1
+    say Moment->new(dt=>'2000-01-01 00:00:00')->cmp( Moment->new(dt=>'2000-01-01 00:00') ); # 0
+    say Moment->new(dt=>'2010-01-01 00:00:00')->cmp( Moment->new(dt=>'2000-01-01 00:00') ); # 1
+
 =cut
 
 sub cmp {
@@ -436,6 +563,28 @@ sub cmp {
 }
 
 =head1 plus
+
+Method plus() returns new Moment object that differ from the original to the
+specified time.
+
+    my $new_moment = $moment->plus(
+        day => 1,
+        hour => 2,
+        minute => 3,
+        second => 4,
+    );
+
+You can also use negative numbers.
+
+    my $two_hours_ago = $moment->plus( hour => -2 );
+
+Here is an example:
+
+    say Moment->new(dt=>'2010-01-01 00:00:00')
+        ->plus( day => 1, hour => 2, minute => 3, second => 4 )
+        ->get_dt()
+        ;
+    # 2010-01-02 02:03:04
 
 =cut
 
@@ -469,6 +618,28 @@ sub plus {
 
 =head1 minus
 
+Method minus() returns new Moment object that differ from the original to the
+specified time.
+
+    my $new_moment = $moment->minus(
+        day => 1,
+        hour => 2,
+        minute => 3,
+        second => 4,
+    );
+
+You can also use negative numbers.
+
+    my $two_hours_behind = $moment->minus( hour => -2 );
+
+Here is an example:
+
+    say Moment->new(dt=>'2010-01-01 00:00:00')
+        ->minus( day => 1, hour => 2, minute => 3, second => 4 )
+        ->get_dt()
+        ;
+    # 2009-12-30 21:56:56
+
 =cut
 
 sub minus {
@@ -501,6 +672,14 @@ sub minus {
 
 =head1 get_month_start
 
+Method get_month_start() returns new Moment object that points to the moment
+the month starts.
+
+    # 2014-12-01 00:00:00
+    say Moment->new(dt=>'2014-12-07 11:50:57')->get_month_start()->get_dt();
+
+The hour, minute and second of the new object is always 0.
+
 =cut
 
 sub get_month_start {
@@ -519,6 +698,14 @@ sub get_month_start {
 }
 
 =head1 get_month_end
+
+Method get_month_end() returns new Moment object that points to the moment
+the month end.
+
+    # 2014-12-31 23:59:59
+    say Moment->new(dt=>'2014-12-07 11:50:57')->get_month_end()->get_dt();
+
+The time of the new object is always '23:59:59'.
 
 =cut
 
