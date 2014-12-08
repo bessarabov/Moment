@@ -760,10 +760,32 @@ The time of the new object is always '23:59:59'.
 sub get_month_end {
     my ($self) = @_;
 
-    my $last_day = Time::Piece->strptime(
-        sprintf("%02d%04d", $self->get_month(), $self->get_year()),
-        "%m%Y",
-    )->month_last_day();
+    my %days_in_month = (
+        1 => 31,
+        # no february
+        3 => 31,
+        4 => 30,
+        5 => 31,
+        6 => 30,
+        7 => 31,
+        8 => 31,
+        9 => 30,
+        10 => 31,
+        11 => 30,
+        12 => 31,
+    );
+
+    my $last_day;
+
+    if ($self->get_month() == 2) {
+        if ($self->is_leap_year()) {
+            $last_day = 29;
+        } else {
+            $last_day = 28;
+        }
+    } else {
+        $last_day = $days_in_month{$self->get_month()};
+    }
 
     my $end = Moment->new(
         year => $self->get_year(),

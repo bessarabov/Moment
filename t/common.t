@@ -8,6 +8,32 @@ sub main_in_test {
 
     my $tests = [
         {
+            dt => '1800-01-01 00:00:00',
+            timestamp => -5364662400,
+            year => 1800,
+            month => 1,
+            day => 1,
+            hour => 0,
+            minute => 0,
+            second => 0,
+            weekday => 'wednesday',
+            month_start_dt => '1800-01-01 00:00:00',
+            month_end_dt => '1800-01-31 23:59:59',
+        },
+        {
+            dt => '1970-01-01 00:00:00',
+            timestamp => 0,
+            year => 1970,
+            month => 1,
+            day => 1,
+            hour => 0,
+            minute => 0,
+            second => 0,
+            weekday => 'thursday',
+            month_start_dt => '1970-01-01 00:00:00',
+            month_end_dt => '1970-01-31 23:59:59',
+        },
+        {
             dt => '2014-11-29 23:44:10',
             timestamp => 1417304650,
             year => 2014,
@@ -32,7 +58,20 @@ sub main_in_test {
             weekday => 'thursday',
             month_start_dt => '2014-07-01 00:00:00',
             month_end_dt => '2014-07-31 23:59:59',
-        }
+        },
+        {
+            dt => '2199-12-31 23:59:59',
+            timestamp => 7258118399,
+            year => 2199,
+            month => 12,
+            day => 31,
+            hour => 23,
+            minute => 59,
+            second => 59,
+            weekday => 'tuesday',
+            month_start_dt => '2199-12-01 00:00:00',
+            month_end_dt => '2199-12-31 23:59:59',
+        },
     ];
 
     foreach my $test (@{$tests}) {
