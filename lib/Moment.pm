@@ -61,8 +61,8 @@ Here are the methods to get the values that was used in constructor:
     # Unix time (a.k.a. POSIX time or Epoch time)
     my $number = $moment->get_timestamp();
 
-You can find out what is the day of week of time moment that is stored in the
-object. You can get scalar with the weekday:
+You can find out what is the day of week of the moment that is stored in the
+object. You can get scalar with the weekday name:
 
     # 'monday', 'tuesday' and others
     my $string = $moment->get_weekday_name();
