@@ -225,7 +225,7 @@ sub new {
             and defined($input_hour) and defined($input_minute) and defined($input_second)) {
             # ok
         } else {
-            croak "Must specify all params: year, month, day, hour, minute, second";
+            croak "Must specify all params: year, month, day, hour, minute, second. Stopped";
         }
 
         $self->{_year} = $input_year + 0;

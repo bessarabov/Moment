@@ -32,6 +32,12 @@ sub main_in_test {
     );
 
     throws_ok(
+        sub { Moment->new( year => 2000, month => 8, day => 2 ); },
+        qr{Must specify all params: year, month, day, hour, minute, second\. Stopped at},
+        'new( year => 2000, month => 8, day => 2 )',
+    );
+
+    throws_ok(
         sub {
             my $n = Moment->new(
                 timestamp => 0,
