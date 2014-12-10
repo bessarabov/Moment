@@ -47,6 +47,26 @@ sub test_new {
         'new( timestamp => ..., dt => ... )',
     );
 
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => 10_000_000_000,
+            );
+        },
+        qr{Incorrect usage\. The recieved timestamp 10000000000 it too big\. It must be <= 7_258_118_399\. Stopped at},
+        'new( timestamp => 10_000_000_000 )',
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => -10_000_000_000,
+            );
+        },
+        qr{Incorrect usage\. The recieved timestamp -10000000000 it too low\. It must be >= -5_364_662_400\. Stopped at},
+        'new( timestamp => -10_000_000_000 )',
+    );
+
 }
 
 sub test_now {

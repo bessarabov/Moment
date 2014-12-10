@@ -193,6 +193,14 @@ sub new {
     if (defined($input_timestamp)) {
         $way++;
 
+        if ($input_timestamp < -5_364_662_400) {
+            croak "Incorrect usage. The recieved timestamp $input_timestamp it too low. It must be >= -5_364_662_400. Stopped";
+        };
+
+        if ($input_timestamp > 7_258_118_399) {
+            croak "Incorrect usage. The recieved timestamp $input_timestamp it too big. It must be <= 7_258_118_399. Stopped";
+        };
+
         my ($second,$minute,$hour,$day,$month,$year,$wday,$yday,$isdst)
             = gmtime($input_timestamp);
 
@@ -335,6 +343,8 @@ This number can be negative.
     say Moment->new( dt => '1970-01-01 00:00:00' )->get_timestamp(); # 0
     say Moment->new( dt => '2000-01-01 00:00:00' )->get_timestamp(); # 946684800
     say Moment->new( dt => '1960-01-01 00:00:00' )->get_timestamp(); # -315619200
+
+The value that return this method is in the range [-5_364_662_400, 7_258_118_399].
 
 =cut
 
