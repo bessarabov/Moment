@@ -5,8 +5,7 @@ use Test::Exception;
 
 use Moment;
 
-sub main_in_test {
-
+sub test_new {
     throws_ok(
         sub { Moment->new(); },
         qr{Incorrect usage\. new\(\) must get some params: dt, timestamp or year/month/day/hour/minute/secod\. Stopped at},
@@ -48,6 +47,9 @@ sub main_in_test {
         'new( timestamp => ..., dt => ... )',
     );
 
+}
+
+sub test_now {
     throws_ok(
         sub {
             my $n = Moment->now( 123 );
@@ -55,7 +57,9 @@ sub main_in_test {
         qr{Incorrect usage\. now\(\) shouldn't get any params. Stopped at},
         'now( 123 )',
     );
+}
 
+sub test_plus {
     throws_ok(
         sub { Moment->plus(); },
         qr{Incorrect usage\. plus\(\) must get some params. Stopped at},
@@ -79,7 +83,9 @@ sub main_in_test {
         qr{Incorrect usage\. plus\(\) got unknown params: 'aa', 'month', 'year'\. Stopped at},
         'plus( month => 1, year => 2, aa => 3 )',
     );
+}
 
+sub test_minus {
     throws_ok(
         sub { Moment->minus(); },
         qr{Incorrect usage\. minus\(\) must get some params. Stopped at},
@@ -103,6 +109,14 @@ sub main_in_test {
         qr{Incorrect usage\. minus\(\) got unknown params: 'aa', 'month', 'year'\. Stopped at},
         'minus( month => 1, year => 2, aa => 3 )',
     );
+}
+
+sub main_in_test {
+
+    test_new();
+    test_now();
+    test_plus();
+    test_minus();
 
     done_testing;
 
