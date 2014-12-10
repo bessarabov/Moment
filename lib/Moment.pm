@@ -236,6 +236,14 @@ sub new {
             croak "Must specify all params: year, month, day, hour, minute, second. Stopped";
         }
 
+        if ($input_year > 2199) {
+            croak "Incorrect usage. Year $input_year it too big. It must be <= 2199. Stopped";
+        }
+
+        if ($input_year < 1800) {
+            croak "Incorrect usage. Year $input_year it too low. It must be >= 1800. Stopped";
+        }
+
         $self->{_year} = $input_year + 0;
         $self->{_month} = $input_month + 0;
         $self->{_day} = $input_day + 0;
@@ -275,6 +283,14 @@ sub new {
             $self->{_minute},
             $self->{_second},
         ) = split(/[\s:-]+/, $input_dt);
+
+        if ($self->{_year} > 2199) {
+            croak "Incorrect usage. Year $self->{_year} it too big. It must be <= 2199. Stopped";
+        }
+
+        if ($self->{_year} < 1800) {
+            croak "Incorrect usage. Year $self->{_year} it too low. It must be >= 1800. Stopped";
+        }
 
         $self->{_year} += 0;
         $self->{_month} += 0;
@@ -372,6 +388,8 @@ sub get_dt {
 Returns the scalar with year of the moment stored in the object.
 
     say Moment->now()->get_year(); # 2014
+
+The value that return this method is in the range [1800, 2199].
 
 =cut
 

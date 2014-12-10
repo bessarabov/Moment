@@ -67,6 +67,56 @@ sub test_new {
         'new( timestamp => -10_000_000_000 )',
     );
 
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                dt => '1799-12-31 23:59:59',
+            );
+        },
+        qr{Incorrect usage\. Year 1799 it too low\. It must be >= 1800\. Stopped at},
+        "new( dt => '1799-12-31 23:59:59' )",
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                dt => '2200-01-01 00:00:00',
+            );
+        },
+        qr{Incorrect usage\. Year 2200 it too big\. It must be <= 2199\. Stopped at},
+        "new( dt => '2200-01-01 00:00:00' )",
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                year => 1799,
+                month => 12,
+                day => 31,
+                hour => 23,
+                minute => 59,
+                second => 59,
+            );
+        },
+        qr{Incorrect usage\. Year 1799 it too low\. It must be >= 1800\. Stopped at},
+        "new( year => 1799, ... )",
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                year => 2200,
+                month => 1,
+                day => 1,
+                hour => 0,
+                minute => 0,
+                second => 0,
+            );
+        },
+        qr{Incorrect usage\. Year 2200 it too big\. It must be <= 2199\. Stopped at},
+        "new( year => 2200, ... )",
+    );
+
 }
 
 sub test_now {
