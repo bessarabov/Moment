@@ -39,6 +39,9 @@ sub main_in_test {
     dies_ok( sub { Moment->new( year => 2200, month => 1, day => 1, hour => 0, minute => 0, second => 0); }, '2200-01-01 00:00:00 dies' );
     dies_ok( sub { Moment->new( year => 2200, month => 1, day => 1, hour => 0, minute => 0, second => 1); }, '2200-01-01 00:00:01 dies' );
 
+    is( Moment->new( timestamp => -5_364_662_400)->get_timestamp(), -5_364_662_400, 'get_timestamp() -5_364_662_400' );
+    is( Moment->new( timestamp => 7_258_118_399)->get_timestamp(), 7_258_118_399, 'get_timestamp() 7_258_118_399' );
+
     done_testing;
 
 }
