@@ -194,6 +194,10 @@ sub new {
     if (defined($input_timestamp)) {
         $way++;
 
+        if (not $self->_is_int($input_timestamp)) {
+            croak "Incorrect usage\. The recieved timestamp is not an integer number. Stopped";
+        };
+
         if ($input_timestamp < -5_364_662_400) {
             croak "Incorrect usage. The recieved timestamp $input_timestamp it too low. It must be >= -5_364_662_400. Stopped";
         };
@@ -316,7 +320,7 @@ sub new {
     if ($way == 1) {
         # this is the correct usage of new()
     } else {
-        croak "Incorrect usage. new() must get only one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped"
+        croak "Incorrect usage. new() must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped"
     }
 
     $self->{_weekday_name} = $self->_get_weekday_name($self->{_timestamp});
@@ -865,6 +869,12 @@ sub _data_printer {
     require Term::ANSIColor;
 
     return Term::ANSIColor::colored($self->get_dt() . ' UTC', 'yellow');
+}
+
+sub _is_int {
+    my ($self, $maybe_int) = @_;
+
+    return $maybe_int =~ /\A[+-]?[0-9]+\Z/;
 }
 
 =head1 SAMPLE USAGE

@@ -43,8 +43,38 @@ sub test_new {
                 dt => "2014-12-05 00:00:00",
             );
         },
-        qr{Incorrect usage\. new\(\) must get only one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
+        qr{Incorrect usage\. new\(\) must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
         'new( timestamp => ..., dt => ... )',
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => undef,
+            );
+        },
+        qr{Incorrect usage\. new\(\) must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
+        'new( timestamp => undef )',
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => 'abc',
+            );
+        },
+        qr{Incorrect usage\. The recieved timestamp is not an integer number. Stopped at},
+        'new( timestamp => "abc" )',
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => 123.5,
+            );
+        },
+        qr{Incorrect usage\. The recieved timestamp is not an integer number. Stopped at},
+        'new( timestamp => 123.5 )',
     );
 
     throws_ok(
