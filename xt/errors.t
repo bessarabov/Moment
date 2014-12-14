@@ -181,12 +181,56 @@ sub test_minus {
     );
 }
 
+sub test_cmp {
+
+    my $moment_1 = Moment->new( dt => '2000-01-01 00:00:00');
+    my $some_object = bless {}, 'Object';
+
+    throws_ok(
+        sub { $moment_1->cmp(); },
+        qr{Incorrect usage\. cmp\(\) must get one parameter. Stopped at},
+        '$moment_1->cmp();',
+    );
+
+    throws_ok(
+        sub { $moment_1->cmp( undef ); },
+        qr{Incorrect usage\. cmp\(\) must get Moment object as a parameter. Stopped at},
+        '$moment_1->cmp( undef );',
+    );
+
+    throws_ok(
+        sub { $moment_1->cmp( 123 ); },
+        qr{Incorrect usage\. cmp\(\) must get Moment object as a parameter. Stopped at},
+        '$moment_1->cmp( 123 );',
+    );
+
+    throws_ok(
+        sub { $moment_1->cmp( { a => 1 } ); },
+        qr{Incorrect usage\. cmp\(\) must get Moment object as a parameter. Stopped at},
+        '$moment_1->cmp( { a => 1 } );',
+    );
+
+    throws_ok(
+        sub { $moment_1->cmp( $some_object ); },
+        qr{Incorrect usage\. cmp\(\) must get Moment object as a parameter. Stopped at},
+        '$moment_1->cmp( $some_object );',
+    );
+
+    throws_ok(
+        sub { $moment_1->cmp( 1, 2 ); },
+        qr{Incorrect usage\. cmp\(\) must get one parameter. Stopped at},
+        '$moment_1->cmp( 1, 2 );',
+    );
+
+}
+
 sub main_in_test {
 
     test_new();
     test_now();
     test_plus();
     test_minus();
+    test_cmp();
 
     done_testing;
 

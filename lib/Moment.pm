@@ -8,6 +8,7 @@ use warnings FATAL => 'all';
 use Carp;
 use Time::Local;
 use Time::Piece;
+use Scalar::Util qw(blessed);
 
 =encoding UTF-8
 =cut
@@ -613,9 +614,20 @@ than, equal to, or greater than the $moment_2
 =cut
 
 sub cmp {
-    my ($self, $moment_2) = @_;
+    my ($self, @params) = @_;
 
-    return $self->get_timestamp() <=> $moment_2->get_timestamp();
+    if (@params != 1) {
+        croak "Incorrect usage. cmp() must get one parameter. Stopped"
+    }
+
+    my $moment_2 = $params[0];
+
+    if (blessed($moment_2) and $moment_2->isa('Moment')) {
+        return $self->get_timestamp() <=> $moment_2->get_timestamp();
+    } else {
+        croak "Incorrect usage. cmp() must get Moment object as a parameter. Stopped";
+    }
+
 }
 
 =head1 plus()
