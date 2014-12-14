@@ -30,6 +30,9 @@ sub main_in_test {
         'cmp() 1'
     );
 
+    my $moment = Moment->new( timestamp => 8 );
+    is( $moment->cmp($moment), 0, '$moment->cmp($moment)' );
+
     done_testing;
 
 }
