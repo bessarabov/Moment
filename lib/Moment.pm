@@ -119,7 +119,7 @@ Features and limitations of this library:
 
 =item * Dies in case of any errors
 
-=item * No dependencies, but perl
+=item * No dependencies, but perl and its core modules
 
 =item * Plays well with Data::Printer
 
