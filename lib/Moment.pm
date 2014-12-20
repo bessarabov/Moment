@@ -743,7 +743,7 @@ the month starts.
     # 2014-12-01 00:00:00
     say Moment->new(dt=>'2014-12-07 11:50:57')->get_month_start()->get_dt();
 
-The hour, minute and second of the new object is always 0.
+The time of the new object is always '00:00:00'.
 
 =cut
 
