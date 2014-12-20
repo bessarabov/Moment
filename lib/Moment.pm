@@ -874,7 +874,7 @@ sub _data_printer {
 sub _is_int {
     my ($self, $maybe_int) = @_;
 
-    return $maybe_int =~ /\A[+-]?[0-9]+\Z/;
+    return $maybe_int =~ /\A0\Z|\A-?[1-9][0-9]*\Z/;
 }
 
 =head1 SAMPLE USAGE
