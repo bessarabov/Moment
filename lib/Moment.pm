@@ -237,7 +237,7 @@ sub new {
         $self->{_minute} = $self->_get_range_value_or_die( 'minute', $input_minute, 0, 59 );
         $self->{_second} = $self->_get_range_value_or_die( 'second', $input_second, 0, 59 );
 
-        $self->{_timestamp} = timegm(
+        $self->{_timestamp} = timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -283,7 +283,7 @@ sub new {
         $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
         $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
 
-        $self->{_timestamp} = timegm(
+        $self->{_timestamp} = timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
