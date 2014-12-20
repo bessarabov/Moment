@@ -183,6 +183,30 @@ sub test_plus {
         qr{Incorrect usage\. plus\(\) got unknown params: 'aa', 'month', 'year'\. Stopped at},
         'plus( month => 1, year => 2, aa => 3 )',
     );
+
+    throws_ok(
+        sub { Moment->plus( day => 'aa' ); },
+        qr{Incorrect usage\. plus\(\) must get integer for 'day'. Stopped at},
+        "plus( day => 'aa' )",
+    );
+
+    throws_ok(
+        sub { Moment->plus( hour => 'aa' ); },
+        qr{Incorrect usage\. plus\(\) must get integer for 'hour'. Stopped at},
+        "plus( hour => 'aa' )",
+    );
+
+    throws_ok(
+        sub { Moment->plus( minute => 'aa' ); },
+        qr{Incorrect usage\. plus\(\) must get integer for 'minute'. Stopped at},
+        "plus( minute => 'aa' )",
+    );
+
+    throws_ok(
+        sub { Moment->plus( second => 'aa' ); },
+        qr{Incorrect usage\. plus\(\) must get integer for 'second'. Stopped at},
+        "plus( second => 'aa' )",
+    );
 }
 
 sub test_minus {
@@ -208,6 +232,30 @@ sub test_minus {
         sub { Moment->minus( month => 1, year => 2, aa => 3 ); },
         qr{Incorrect usage\. minus\(\) got unknown params: 'aa', 'month', 'year'\. Stopped at},
         'minus( month => 1, year => 2, aa => 3 )',
+    );
+
+    throws_ok(
+        sub { Moment->minus( day => 'aa' ); },
+        qr{Incorrect usage\. minus\(\) must get integer for 'day'. Stopped at},
+        "minus( day => 'aa' )",
+    );
+
+    throws_ok(
+        sub { Moment->minus( hour => 'aa' ); },
+        qr{Incorrect usage\. minus\(\) must get integer for 'hour'. Stopped at},
+        "minus( hour => 'aa' )",
+    );
+
+    throws_ok(
+        sub { Moment->minus( minute => 'aa' ); },
+        qr{Incorrect usage\. minus\(\) must get integer for 'minute'. Stopped at},
+        "minus( minute => 'aa' )",
+    );
+
+    throws_ok(
+        sub { Moment->minus( second => 'aa' ); },
+        qr{Incorrect usage\. minus\(\) must get integer for 'second'. Stopped at},
+        "minus( second => 'aa' )",
     );
 }
 

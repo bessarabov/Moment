@@ -675,12 +675,27 @@ sub plus {
 
     my $day = delete $params{day};
     $day = 0 if not defined $day;
+    if (not $self->_is_int($day)) {
+        croak "Incorrect usage\. plus\(\) must get integer for 'day'. Stopped";
+    }
+
     my $hour = delete $params{hour};
     $hour = 0 if not defined $hour;
+    if (not $self->_is_int($hour)) {
+        croak "Incorrect usage\. plus\(\) must get integer for 'hour'. Stopped";
+    }
+
     my $minute = delete $params{minute};
     $minute = 0 if not defined $minute;
+    if (not $self->_is_int($minute)) {
+        croak "Incorrect usage\. plus\(\) must get integer for 'minute'. Stopped";
+    }
+
     my $second = delete $params{second};
     $second = 0 if not defined $second;
+    if (not $self->_is_int($second)) {
+        croak "Incorrect usage\. plus\(\) must get integer for 'second'. Stopped";
+    }
 
     if (%params) {
         croak "Incorrect usage. plus() got unknown params: '" . join("', '", (sort keys %params)) . "'. Stopped";
@@ -739,12 +754,27 @@ sub minus {
 
     my $day = delete $params{day};
     $day = 0 if not defined $day;
+    if (not $self->_is_int($day)) {
+        croak "Incorrect usage\. minus\(\) must get integer for 'day'. Stopped";
+    }
+
     my $hour = delete $params{hour};
     $hour = 0 if not defined $hour;
+    if (not $self->_is_int($hour)) {
+        croak "Incorrect usage\. minus\(\) must get integer for 'hour'. Stopped";
+    }
+
     my $minute = delete $params{minute};
     $minute = 0 if not defined $minute;
+    if (not $self->_is_int($minute)) {
+        croak "Incorrect usage\. minus\(\) must get integer for 'minute'. Stopped";
+    }
+
     my $second = delete $params{second};
     $second = 0 if not defined $second;
+    if (not $self->_is_int($second)) {
+        croak "Incorrect usage\. minus\(\) must get integer for 'second'. Stopped";
+    }
 
     if (%params) {
         croak "Incorrect usage. minus() got unknown params: '" . join("', '", (sort keys %params)) . "'. Stopped";
