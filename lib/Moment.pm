@@ -617,8 +617,9 @@ sub cmp {
 
 =head1 plus()
 
-Method plus() returns new Moment object that differ from the original to the
-specified time.
+Method plus() returns new object that differ from the original to the
+specified time. The class of the new object is the same as the class of the
+variable on which you run method.
 
     my $new_moment = $moment->plus(
         day => 1,
@@ -670,15 +671,17 @@ sub plus {
         + $second
         ;
 
-    my $new_moment = Moment->new( timestamp => $new_timestamp );
+    my $new_moment = ref($self)->new( timestamp => $new_timestamp );
 
     return $new_moment;
 }
 
 =head1 minus()
 
-Method minus() returns new Moment object that differ from the original to the
-specified time.
+Method minus() returns new object that differ from the original to the
+specified time. The class of the new object is the same as the class of the
+variable on which you run method.
+
 
     my $new_moment = $moment->minus(
         day => 1,
@@ -730,15 +733,17 @@ sub minus {
         - $second
         ;
 
-    my $new_moment = Moment->new( timestamp => $new_timestamp );
+    my $new_moment = ref($self)->new( timestamp => $new_timestamp );
 
     return $new_moment;
 }
 
 =head1 get_month_start()
 
-Method get_month_start() returns new Moment object that points to the moment
-the month starts.
+Method get_month_start() returns new object that points to the moment
+the month starts. The class of the new object is the same as the class of the
+variable on which you run method.
+
 
     # 2014-12-01 00:00:00
     say Moment->new(dt=>'2014-12-07 11:50:57')->get_month_start()->get_dt();
@@ -750,7 +755,7 @@ The time of the new object is always '00:00:00'.
 sub get_month_start {
     my ($self) = @_;
 
-    my $start = Moment->new(
+    my $start = ref($self)->new(
         year => $self->get_year(),
         month => $self->get_month(),
         day => 1,
@@ -764,8 +769,9 @@ sub get_month_start {
 
 =head1 get_month_end()
 
-Method get_month_end() returns new Moment object that points to the moment
-the month end.
+Method get_month_end() returns new object that points to the moment
+the month end. The class of the new object is the same as the class of the
+variable on which you run method.
 
     # 2014-12-31 23:59:59
     say Moment->new(dt=>'2014-12-07 11:50:57')->get_month_end()->get_dt();
@@ -777,7 +783,7 @@ The time of the new object is always '23:59:59'.
 sub get_month_end {
     my ($self) = @_;
 
-    my $end = Moment->new(
+    my $end = ref($self)->new(
         year => $self->get_year(),
         month => $self->get_month(),
         day => $self->_get_last_day_in_year_month( $self->get_year(), $self->get_month() ),
