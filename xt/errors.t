@@ -63,7 +63,7 @@ sub test_new {
                 timestamp => 'abc',
             );
         },
-        qr{Incorrect usage\. The recieved timestamp is not an integer number. Stopped at},
+        qr{Incorrect usage\. The timestamp 'abc' is not an integer number\. Stopped at},
         'new( timestamp => "abc" )',
     );
 
@@ -73,7 +73,7 @@ sub test_new {
                 timestamp => 123.5,
             );
         },
-        qr{Incorrect usage\. The recieved timestamp is not an integer number. Stopped at},
+        qr{Incorrect usage\. The timestamp '123\.5' is not an integer number\. Stopped at},
         'new( timestamp => 123.5 )',
     );
 
@@ -83,7 +83,7 @@ sub test_new {
                 timestamp => 10_000_000_000,
             );
         },
-        qr{Incorrect usage\. The recieved timestamp 10000000000 it too big\. It must be <= 7_258_118_399\. Stopped at},
+        qr{Incorrect usage\. The timestamp '10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
         'new( timestamp => 10_000_000_000 )',
     );
 
@@ -93,7 +93,7 @@ sub test_new {
                 timestamp => -10_000_000_000,
             );
         },
-        qr{Incorrect usage\. The recieved timestamp -10000000000 it too low\. It must be >= -5_364_662_400\. Stopped at},
+        qr{Incorrect usage\. The timestamp '-10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
         'new( timestamp => -10_000_000_000 )',
     );
 
@@ -103,7 +103,7 @@ sub test_new {
                 dt => '1799-12-31 23:59:59',
             );
         },
-        qr{Incorrect usage\. Year 1799 it too low\. It must be >= 1800\. Stopped at},
+        qr{Incorrect usage\. The year '1799' is not in range \[1800, 2199]\. Stopped at},
         "new( dt => '1799-12-31 23:59:59' )",
     );
 
@@ -113,7 +113,7 @@ sub test_new {
                 dt => '2200-01-01 00:00:00',
             );
         },
-        qr{Incorrect usage\. Year 2200 it too big\. It must be <= 2199\. Stopped at},
+        qr{Incorrect usage\. The year '2200' is not in range \[1800, 2199]\. Stopped at},
         "new( dt => '2200-01-01 00:00:00' )",
     );
 
@@ -128,7 +128,7 @@ sub test_new {
                 second => 59,
             );
         },
-        qr{Incorrect usage\. Year 1799 it too low\. It must be >= 1800\. Stopped at},
+        qr{Incorrect usage\. The year '1799' is not in range \[1800, 2199]\. Stopped at},
         "new( year => 1799, ... )",
     );
 
@@ -143,7 +143,7 @@ sub test_new {
                 second => 0,
             );
         },
-        qr{Incorrect usage\. Year 2200 it too big\. It must be <= 2199\. Stopped at},
+        qr{Incorrect usage\. The year '2200' is not in range \[1800, 2199]\. Stopped at},
         "new( year => 2200, ... )",
     );
 

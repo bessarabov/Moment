@@ -194,17 +194,7 @@ sub new {
     if (defined($input_timestamp)) {
         $way++;
 
-        if (not $self->_is_int($input_timestamp)) {
-            croak "Incorrect usage\. The recieved timestamp is not an integer number. Stopped";
-        };
-
-        if ($input_timestamp < -5_364_662_400) {
-            croak "Incorrect usage. The recieved timestamp $input_timestamp it too low. It must be >= -5_364_662_400. Stopped";
-        };
-
-        if ($input_timestamp > 7_258_118_399) {
-            croak "Incorrect usage. The recieved timestamp $input_timestamp it too big. It must be <= 7_258_118_399. Stopped";
-        };
+        $self->_check_range_or_die( 'timestamp', $input_timestamp, -5_364_662_400, 7_258_118_399 );
 
         my ($second,$minute,$hour,$day,$month,$year,$wday,$yday,$isdst)
             = gmtime($input_timestamp);
@@ -241,13 +231,7 @@ sub new {
             croak "Must specify all params: year, month, day, hour, minute, second. Stopped";
         }
 
-        if ($input_year > 2199) {
-            croak "Incorrect usage. Year $input_year it too big. It must be <= 2199. Stopped";
-        }
-
-        if ($input_year < 1800) {
-            croak "Incorrect usage. Year $input_year it too low. It must be >= 1800. Stopped";
-        }
+        $self->_check_range_or_die( 'year', $input_year, 1800, 2199 );
 
         $self->{_year} = $input_year + 0;
         $self->{_month} = $input_month + 0;
@@ -289,13 +273,7 @@ sub new {
             $self->{_second},
         ) = split(/[\s:-]+/, $input_dt);
 
-        if ($self->{_year} > 2199) {
-            croak "Incorrect usage. Year $self->{_year} it too big. It must be <= 2199. Stopped";
-        }
-
-        if ($self->{_year} < 1800) {
-            croak "Incorrect usage. Year $self->{_year} it too low. It must be >= 1800. Stopped";
-        }
+        $self->_check_range_or_die( 'year', $self->{_year}, 1800, 2199 );
 
         $self->{_year} += 0;
         $self->{_month} += 0;
@@ -881,6 +859,21 @@ sub _get_value_or_die {
     }
 
     return $value;
+}
+
+sub _check_range_or_die {
+    my ($self, $key, $input_value, $min, $max) = @_;
+
+    my $safe_value = 'undef';
+    $safe_value = "'$input_value'" if defined $input_value;
+
+    if (not $self->_is_int($input_value)) {
+        croak "Incorrect usage\. The $key $safe_value is not an integer number. Stopped";
+    };
+
+    if ( ($input_value < $min) or ($input_value > $max) ) {
+        croak "Incorrect usage. The $key $safe_value is not in range [$min, $max]. Stopped";
+    }
 }
 
 =head1 SAMPLE USAGE
