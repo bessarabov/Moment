@@ -17,7 +17,7 @@ use Scalar::Util qw(blessed);
 Moment is a Perl library. With this library you can create object that
 represent some moment in time.
 
-There are 3 ways you can create new object with the new() constuctor:
+There are 3 ways you can create new object with the new() constructor:
 
     my $some_moment = Moment->new(
         # dt format is 'YYYY-MM-DD hh:mm:ss'
@@ -39,7 +39,7 @@ There are 3 ways you can create new object with the new() constuctor:
         timestamp => 1000000000,
     );
 
-You can also use now() constroctor to create object that points to the current
+You can also use now() constructor to create object that points to the current
 moment in time:
 
     my $now = Moment->now();
