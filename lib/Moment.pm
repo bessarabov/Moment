@@ -170,6 +170,10 @@ sub new {
 
     my %params = @params;
 
+    if (blessed($class)) {
+        croak "Incorrect usage. You can't run new() on a variable. Stopped";
+    }
+
     my $self = {};
     bless $self, $class;
 
@@ -326,6 +330,10 @@ sub now {
 
     if (@params) {
         croak 'Incorrect usage. now() shouldn\'t get any params. Stopped';
+    }
+
+    if (blessed($class)) {
+        croak "Incorrect usage. You can't run now() on a variable. Stopped";
     }
 
     my $self = Moment->new(

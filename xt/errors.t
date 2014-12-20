@@ -187,6 +187,23 @@ sub test_new {
         "new( year => 2200, ... )",
     );
 
+    my $m = Moment->new( dt => '2000-01-01 00:00:00' );
+
+    throws_ok(
+        sub {
+            my $m2 = $m->new(
+                year => 2001,
+                month => 1,
+                day => 1,
+                hour => 0,
+                minute => 0,
+                second => 0,
+            );
+        },
+        qr{Incorrect usage\. You can't run new\(\) on a variable\. Stopped at},
+        "$m->new( year => 2001, ... )",
+    );
+
 }
 
 sub test_now {
@@ -196,6 +213,16 @@ sub test_now {
         },
         qr{Incorrect usage\. now\(\) shouldn't get any params. Stopped at},
         'now( 123 )',
+    );
+
+    my $m = Moment->new( dt => '2000-01-01 00:00:00' );
+
+    throws_ok(
+        sub {
+            my $m2 = $m->now();
+        },
+        qr{Incorrect usage\. You can't run now\(\) on a variable\. Stopped at},
+        "$m->now()",
     );
 }
 
