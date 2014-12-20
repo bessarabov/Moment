@@ -260,20 +260,18 @@ sub new {
     if (defined($input_dt)) {
         $way++;
 
-        (
-            $self->{_year},
-            $self->{_month},
-            $self->{_day},
-            $self->{_hour},
-            $self->{_minute},
-            $self->{_second},
-        ) = split(/[\s:-]+/, $input_dt);
-
-        $self->{_month} += 0;
-        $self->{_day} += 0;
-        $self->{_hour} += 0;
-        $self->{_minute} += 0;
-        $self->{_second} += 0;
+        if ($input_dt =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})\Z/) {
+            $self->{_year} = $1;
+            $self->{_month} = $2 + 0;
+            $self->{_day} = $3 + 0;
+            $self->{_hour} = $4 + 0;
+            $self->{_minute} = $5 + 0;
+            $self->{_second} = $6 + 0;
+        } else {
+            my $safe_dt = 'undef';
+            $safe_dt = "'$input_dt'" if defined $input_dt;
+            croak "Incorrect usage. dt $safe_dt is not in expected format 'YYYY-MM-DD hh:mm:ss'. Stopped";
+        }
 
         $self->_get_range_value_or_die( 'year', $self->{_year}, 1800, 2199 );
         $self->_get_range_value_or_die( 'month', $self->{_month}, 1, 12 );
@@ -291,7 +289,15 @@ sub new {
             $self->{_year},
         );
 
-        $self->{_dt} = $input_dt;
+        $self->{_dt} = sprintf(
+            "%04d-%02d-%02d %02d:%02d:%02d",
+            $self->{_year},
+            $self->{_month},
+            $self->{_day},
+            $self->{_hour},
+            $self->{_minute},
+            $self->{_second},
+        );
 
     }
 

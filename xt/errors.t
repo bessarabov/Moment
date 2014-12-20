@@ -100,6 +100,16 @@ sub test_new {
     throws_ok(
         sub {
             my $n = Moment->new(
+                dt => '2000-1-1 23:59:59',
+            );
+        },
+        qr{Incorrect usage\. dt '2000-1-1 23:59:59' is not in expected format 'YYYY-MM-DD hh:mm:ss'\. Stopped at},
+        "new( dt => '2000-1-1 23:59:59' )",
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
                 dt => '1799-12-31 23:59:59',
             );
         },
