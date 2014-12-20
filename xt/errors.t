@@ -342,6 +342,41 @@ sub test_cmp {
 
 }
 
+sub test_methods_without_params {
+    my $m = Moment->new( dt => '2000-01-01 00:00:00');
+
+    my @methods = qw(
+        get_timestamp
+        get_dt
+        get_year
+        get_month
+        get_day
+        get_hour
+        get_minute
+        get_second
+        get_weekday_name
+        is_monday
+        is_tuesday
+        is_wednesday
+        is_thursday
+        is_friday
+        is_saturday
+        is_sunday
+        is_leap_year
+        get_month_start
+        get_month_end
+    );
+
+    foreach my $method (@methods) {
+        throws_ok(
+            sub { $m->$method( 'asdf' ); },
+            qr{Incorrect usage\. $method\(\) shouldn\'t get any params\. Stopped},
+            "$method( 'asdf' ) dies, because it should not get param",
+        );
+    }
+
+}
+
 sub main_in_test {
 
     test_new();
@@ -349,6 +384,7 @@ sub main_in_test {
     test_plus();
     test_minus();
     test_cmp();
+    test_methods_without_params();
 
     done_testing;
 

@@ -354,7 +354,12 @@ The value that return this method is in the range [-5_364_662_400, 7_258_118_399
 =cut
 
 sub get_timestamp {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_timestamp() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_timestamp};
 }
 
@@ -368,7 +373,12 @@ The data in scalar is in format 'YYYY-MM-DD hh:mm:ss'.
 =cut
 
 sub get_dt {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_dt() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_dt};
 }
 
@@ -383,7 +393,12 @@ The value that return this method is in the range [1800, 2199].
 =cut
 
 sub get_year {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_year() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_year};
 }
 
@@ -398,7 +413,12 @@ Method return '9', not '09'.
 =cut
 
 sub get_month {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_month() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_month};
 }
 
@@ -414,7 +434,12 @@ Method return '7', not '07'.
 =cut
 
 sub get_day {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_day() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_day};
 }
 
@@ -429,7 +454,12 @@ Method return '9', not '09'.
 =cut
 
 sub get_hour {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_hour() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_hour};
 }
 
@@ -444,7 +474,12 @@ Method return '9', not '09'.
 =cut
 
 sub get_minute {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_minute() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_minute};
 }
 
@@ -459,7 +494,12 @@ Method return '9', not '09'.
 =cut
 
 sub get_second {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_second() shouldn\'t get any params. Stopped';
+    }
+
     return $self->{_second};
 }
 
@@ -474,7 +514,11 @@ this method can return: 'monday', 'tuesday', 'wednesday', 'thursday',
 =cut
 
 sub get_weekday_name {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_weekday_name() shouldn\'t get any params. Stopped';
+    }
 
     return $self->{_weekday_name};
 }
@@ -487,7 +531,11 @@ false value.
 =cut
 
 sub is_monday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_monday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'monday';
 }
@@ -500,7 +548,11 @@ false value.
 =cut
 
 sub is_tuesday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_tuesday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'tuesday';
 }
@@ -513,7 +565,11 @@ false value.
 =cut
 
 sub is_wednesday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_wednesday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'wednesday';
 }
@@ -526,7 +582,11 @@ false value.
 =cut
 
 sub is_thursday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_thursday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'thursday';
 }
@@ -539,7 +599,11 @@ false value.
 =cut
 
 sub is_friday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_friday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'friday';
 }
@@ -552,7 +616,11 @@ false value.
 =cut
 
 sub is_saturday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_saturday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'saturday';
 }
@@ -565,7 +633,11 @@ false value.
 =cut
 
 sub is_sunday {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_sunday() shouldn\'t get any params. Stopped';
+    }
 
     return $self->get_weekday_name() eq 'sunday';
 }
@@ -578,7 +650,11 @@ false value.
 =cut
 
 sub is_leap_year {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. is_leap_year() shouldn\'t get any params. Stopped';
+    }
 
     return $self->_is_leap_year( $self->get_year() );
 }
@@ -753,7 +829,11 @@ The time of the new object is always '00:00:00'.
 =cut
 
 sub get_month_start {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_month_start() shouldn\'t get any params. Stopped';
+    }
 
     my $start = ref($self)->new(
         year => $self->get_year(),
@@ -781,7 +861,11 @@ The time of the new object is always '23:59:59'.
 =cut
 
 sub get_month_end {
-    my ($self) = @_;
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_month_end() shouldn\'t get any params. Stopped';
+    }
 
     my $end = ref($self)->new(
         year => $self->get_year(),
