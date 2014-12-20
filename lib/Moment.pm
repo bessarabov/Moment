@@ -5,9 +5,8 @@ package Moment;
 use strict;
 use warnings FATAL => 'all';
 
-use Carp;
-use Time::Local;
-use Time::Piece;
+use Carp qw(croak);
+use Time::Local qw(timegm_nocheck);
 use Scalar::Util qw(blessed);
 
 =encoding UTF-8
