@@ -232,7 +232,7 @@ sub new {
 
         $self->{_year} = $self->_get_range_value_or_die( 'year', $input_year, 1800, 2199 );
         $self->{_month} = $self->_get_range_value_or_die( 'month', $input_month, 1, 12 );
-        $self->{_day} = $self->_get_range_value_or_die( 'day', $input_day, 1, 31 );
+        $self->{_day} = $self->_get_range_value_or_die( 'day', $input_day, 1, $self->_get_last_day_in_year_month( $self->{_year}, $self->{_month}) );
         $self->{_hour} = $self->_get_range_value_or_die( 'hour', $input_hour, 0, 23 );
         $self->{_minute} = $self->_get_range_value_or_die( 'minute', $input_minute, 0, 59 );
         $self->{_second} = $self->_get_range_value_or_die( 'second', $input_second, 0, 59 );
@@ -278,7 +278,7 @@ sub new {
 
         $self->_get_range_value_or_die( 'year', $self->{_year}, 1800, 2199 );
         $self->_get_range_value_or_die( 'month', $self->{_month}, 1, 12 );
-        $self->_get_range_value_or_die( 'day', $self->{_day}, 1, 31 );
+        $self->_get_range_value_or_die( 'day', $self->{_day}, 1, $self->_get_last_day_in_year_month( $self->{_year}, $self->{_month}) );
         $self->_get_range_value_or_die( 'hour', $self->{_hour}, 0, 23 );
         $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
         $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
@@ -575,10 +575,7 @@ false value.
 sub is_leap_year {
     my ($self) = @_;
 
-    return '' if $self->get_year() % 4;
-    return 1 if $self->get_year() % 100;
-    return '' if $self->get_year() % 400;
-    return 1;
+    return $self->_is_leap_year( $self->get_year() );
 }
 
 =head1 cmp()
@@ -775,37 +772,10 @@ The time of the new object is always '23:59:59'.
 sub get_month_end {
     my ($self) = @_;
 
-    my %days_in_month = (
-        1 => 31,
-        # no february
-        3 => 31,
-        4 => 30,
-        5 => 31,
-        6 => 30,
-        7 => 31,
-        8 => 31,
-        9 => 30,
-        10 => 31,
-        11 => 30,
-        12 => 31,
-    );
-
-    my $last_day;
-
-    if ($self->get_month() == 2) {
-        if ($self->is_leap_year()) {
-            $last_day = 29;
-        } else {
-            $last_day = 28;
-        }
-    } else {
-        $last_day = $days_in_month{$self->get_month()};
-    }
-
     my $end = Moment->new(
         year => $self->get_year(),
         month => $self->get_month(),
-        day => $last_day,
+        day => $self->_get_last_day_in_year_month( $self->get_year(), $self->get_month() ),
         hour => 23,
         minute => 59,
         second => 59,
@@ -877,6 +847,48 @@ sub _get_range_value_or_die {
     }
 
     return $input_value;
+}
+
+sub _is_leap_year {
+    my ($self, $year) = @_;
+
+    return '' if $year % 4;
+    return 1 if $year % 100;
+    return '' if $year % 400;
+    return 1;
+}
+
+sub _get_last_day_in_year_month {
+    my ($self, $year, $month) = @_;
+
+    my %days_in_month = (
+        1 => 31,
+        # no february
+        3 => 31,
+        4 => 30,
+        5 => 31,
+        6 => 30,
+        7 => 31,
+        8 => 31,
+        9 => 30,
+        10 => 31,
+        11 => 30,
+        12 => 31,
+    );
+
+    my $last_day;
+
+    if ($month == 2) {
+        if ($self->_is_leap_year($year)) {
+            $last_day = 29;
+        } else {
+            $last_day = 28;
+        }
+    } else {
+        $last_day = $days_in_month{$month};
+    }
+
+    return $last_day;
 }
 
 =head1 SAMPLE USAGE
