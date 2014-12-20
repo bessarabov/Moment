@@ -194,10 +194,10 @@ sub new {
     if (defined($input_timestamp)) {
         $way++;
 
-        $self->_check_range_or_die( 'timestamp', $input_timestamp, -5_364_662_400, 7_258_118_399 );
+        $self->{_timestamp} = $self->_get_range_value_or_die( 'timestamp', $input_timestamp, -5_364_662_400, 7_258_118_399 );
 
         my ($second,$minute,$hour,$day,$month,$year,$wday,$yday,$isdst)
-            = gmtime($input_timestamp);
+            = gmtime($self->{_timestamp});
 
         $self->{_year} = $year + 1900;
         $self->{_month} = $month + 1;
@@ -206,7 +206,6 @@ sub new {
         $self->{_minute} = $minute;
         $self->{_second} = $second;
 
-        $self->{_timestamp} = $input_timestamp;
         $self->{_dt} = sprintf(
             "%04d-%02d-%02d %02d:%02d:%02d",
             $self->{_year},
@@ -231,14 +230,12 @@ sub new {
             croak "Must specify all params: year, month, day, hour, minute, second. Stopped";
         }
 
-        $self->_check_range_or_die( 'year', $input_year, 1800, 2199 );
-
-        $self->{_year} = $input_year + 0;
-        $self->{_month} = $input_month + 0;
-        $self->{_day} = $input_day + 0;
-        $self->{_hour} = $input_hour + 0;
-        $self->{_minute} = $input_minute + 0;
-        $self->{_second} = $input_second + 0;
+        $self->{_year} = $self->_get_range_value_or_die( 'year', $input_year, 1800, 2199 );
+        $self->{_month} = $self->_get_range_value_or_die( 'month', $input_month, 1, 12 );
+        $self->{_day} = $self->_get_range_value_or_die( 'day', $input_day, 1, 31 );
+        $self->{_hour} = $self->_get_range_value_or_die( 'hour', $input_hour, 0, 23 );
+        $self->{_minute} = $self->_get_range_value_or_die( 'minute', $input_minute, 0, 59 );
+        $self->{_second} = $self->_get_range_value_or_die( 'second', $input_second, 0, 59 );
 
         $self->{_timestamp} = timegm(
             $self->{_second},
@@ -273,14 +270,18 @@ sub new {
             $self->{_second},
         ) = split(/[\s:-]+/, $input_dt);
 
-        $self->_check_range_or_die( 'year', $self->{_year}, 1800, 2199 );
-
-        $self->{_year} += 0;
         $self->{_month} += 0;
         $self->{_day} += 0;
         $self->{_hour} += 0;
         $self->{_minute} += 0;
         $self->{_second} += 0;
+
+        $self->_get_range_value_or_die( 'year', $self->{_year}, 1800, 2199 );
+        $self->_get_range_value_or_die( 'month', $self->{_month}, 1, 12 );
+        $self->_get_range_value_or_die( 'day', $self->{_day}, 1, 31 );
+        $self->_get_range_value_or_die( 'hour', $self->{_hour}, 0, 23 );
+        $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
+        $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
 
         $self->{_timestamp} = timegm(
             $self->{_second},
@@ -861,7 +862,7 @@ sub _get_value_or_die {
     return $value;
 }
 
-sub _check_range_or_die {
+sub _get_range_value_or_die {
     my ($self, $key, $input_value, $min, $max) = @_;
 
     my $safe_value = 'undef';
@@ -874,6 +875,8 @@ sub _check_range_or_die {
     if ( ($input_value < $min) or ($input_value > $max) ) {
         croak "Incorrect usage. The $key $safe_value is not in range [$min, $max]. Stopped";
     }
+
+    return $input_value;
 }
 
 =head1 SAMPLE USAGE

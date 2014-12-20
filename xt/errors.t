@@ -120,6 +120,16 @@ sub test_new {
     throws_ok(
         sub {
             my $n = Moment->new(
+                dt => '2000-33-01 00:00:00',
+            );
+        },
+        qr{Incorrect usage\. The month '33' is not in range \[1, 12]\. Stopped at},
+        "new( dt => '2200-01-01 00:00:00' )",
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
                 year => 1799,
                 month => 12,
                 day => 31,
