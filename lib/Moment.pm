@@ -383,6 +383,9 @@ The data in scalar is in format 'YYYY-MM-DD hh:mm:ss'.
 
     say Moment->now()->get_dt(); # 2014-12-07 11:50:57
 
+The value that return this method is in the range ['1800-01-01 00:00:00',
+'2199-12-31 23:59:59'].
+
 =cut
 
 sub get_dt {
@@ -421,6 +424,8 @@ Returns the scalar with number of month of the moment stored in the object.
 
     say Moment->now()->get_month(); # 12
 
+The value that return this method is in the range [1, 12].
+
 Method return '9', not '09'.
 
 =cut
@@ -442,6 +447,22 @@ moment stored in the object.
 
     say Moment->now()->get_day(); # 7
 
+The value that return this method is in the range [1, MAX_DAY]. Where the
+MAX_DAY depend on the month:
+
+    1 => 31,
+    2 => 28, # 29 on leap years
+    3 => 31,
+    4 => 30,
+    5 => 31,
+    6 => 30,
+    7 => 31,
+    8 => 31,
+    9 => 30,
+    10 => 31,
+    11 => 30,
+    12 => 31,
+
 Method return '7', not '07'.
 
 =cut
@@ -462,6 +483,8 @@ Returns the scalar with hour of the moment stored in the object.
 
     say Moment->now()->get_hour(); # 11
 
+The value that return this method is in the range [0, 23].
+
 Method return '9', not '09'.
 
 =cut
@@ -480,7 +503,9 @@ sub get_hour {
 
 Returns the scalar with minute of the moment stored in the object.
 
-    say Moment->now()->get_hour(); # 50
+    say Moment->now()->get_minute(); # 50
+
+The value that return this method is in the range [0, 59].
 
 Method return '9', not '09'.
 
@@ -501,6 +526,8 @@ sub get_minute {
 Returns the scalar with second of the moment stored in the object.
 
     say Moment->now()->get_second(); # 57
+
+The value that return this method is in the range [0, 59].
 
 Method return '9', not '09'.
 
