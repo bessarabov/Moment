@@ -135,7 +135,9 @@ Features and limitations of this library:
 
 =cut
 
-=head1 new()
+=head1 METHODS
+
+=head2 new()
 
 Constructor. Creates new Moment object that points to the specified moment
 of time. Can be used in 3 different ways:
@@ -323,7 +325,7 @@ sub new {
     return $self;
 }
 
-=head1 now()
+=head2 now()
 
 Constructor. Creates new Moment object that points to the current moment
 of time.
@@ -350,7 +352,7 @@ sub now {
     return $self;
 };
 
-=head1 get_timestamp()
+=head2 get_timestamp()
 
 Returns the timestamp of the moment stored in the object.
 
@@ -378,7 +380,7 @@ sub get_timestamp {
     return $self->{_timestamp};
 }
 
-=head1 get_dt()
+=head2 get_dt()
 
 Returns the scalar with date and time of the moment stored in the object.
 The data in scalar is in format 'YYYY-MM-DD hh:mm:ss'.
@@ -400,7 +402,7 @@ sub get_dt {
     return $self->{_dt};
 }
 
-=head1 get_year()
+=head2 get_year()
 
 Returns the scalar with year of the moment stored in the object.
 
@@ -420,7 +422,7 @@ sub get_year {
     return $self->{_year};
 }
 
-=head1 get_month()
+=head2 get_month()
 
 Returns the scalar with number of month of the moment stored in the object.
 
@@ -442,7 +444,7 @@ sub get_month {
     return $self->{_month};
 }
 
-=head1 get_day()
+=head2 get_day()
 
 Returns the scalar with number of day since the beginning of mongth of the
 moment stored in the object.
@@ -479,7 +481,7 @@ sub get_day {
     return $self->{_day};
 }
 
-=head1 get_hour()
+=head2 get_hour()
 
 Returns the scalar with hour of the moment stored in the object.
 
@@ -501,7 +503,7 @@ sub get_hour {
     return $self->{_hour};
 }
 
-=head1 get_minute()
+=head2 get_minute()
 
 Returns the scalar with minute of the moment stored in the object.
 
@@ -523,7 +525,7 @@ sub get_minute {
     return $self->{_minute};
 }
 
-=head1 get_second()
+=head2 get_second()
 
 Returns the scalar with second of the moment stored in the object.
 
@@ -545,7 +547,7 @@ sub get_second {
     return $self->{_second};
 }
 
-=head1 get_weekday_name()
+=head2 get_weekday_name()
 
 Return scalar with the weekday name. Here is the full list of strings that
 this method can return: 'monday', 'tuesday', 'wednesday', 'thursday',
@@ -565,7 +567,7 @@ sub get_weekday_name {
     return $self->{_weekday_name};
 }
 
-=head1 is_monday()
+=head2 is_monday()
 
 Returns true value is the weekday of the moment is monday. Otherwise returns
 false value.
@@ -582,7 +584,7 @@ sub is_monday {
     return $self->get_weekday_name() eq 'monday';
 }
 
-=head1 is_tuesday()
+=head2 is_tuesday()
 
 Returns true value is the weekday of the moment is tuesday. Otherwise returns
 false value.
@@ -599,7 +601,7 @@ sub is_tuesday {
     return $self->get_weekday_name() eq 'tuesday';
 }
 
-=head1 is_wednesday()
+=head2 is_wednesday()
 
 Returns true value is the weekday of the moment is wednesday. Otherwise returns
 false value.
@@ -616,7 +618,7 @@ sub is_wednesday {
     return $self->get_weekday_name() eq 'wednesday';
 }
 
-=head1 is_thursday()
+=head2 is_thursday()
 
 Returns true value is the weekday of the moment is thursday. Otherwise returns
 false value.
@@ -633,7 +635,7 @@ sub is_thursday {
     return $self->get_weekday_name() eq 'thursday';
 }
 
-=head1 is_friday()
+=head2 is_friday()
 
 Returns true value is the weekday of the moment is friday. Otherwise returns
 false value.
@@ -650,7 +652,7 @@ sub is_friday {
     return $self->get_weekday_name() eq 'friday';
 }
 
-=head1 is_saturday()
+=head2 is_saturday()
 
 Returns true value is the weekday of the moment is saturday. Otherwise returns
 false value.
@@ -667,7 +669,7 @@ sub is_saturday {
     return $self->get_weekday_name() eq 'saturday';
 }
 
-=head1 is_sunday()
+=head2 is_sunday()
 
 Returns true value is the weekday of the moment is sunday. Otherwise returns
 false value.
@@ -684,7 +686,7 @@ sub is_sunday {
     return $self->get_weekday_name() eq 'sunday';
 }
 
-=head1 is_leap_year()
+=head2 is_leap_year()
 
 Returns true value is the year of the moment is leap. Otherwise returns
 false value.
@@ -701,7 +703,7 @@ sub is_leap_year {
     return $self->_is_leap_year( $self->get_year() );
 }
 
-=head1 cmp()
+=head2 cmp()
 
 Method to compare 2 object. It works exactly as perl builtin 'cmp' keyword.
 
@@ -733,7 +735,7 @@ sub cmp {
 
 }
 
-=head1 plus()
+=head2 plus()
 
 Method plus() returns new object that differ from the original to the
 specified time. The class of the new object is the same as the class of the
@@ -794,7 +796,7 @@ sub plus {
     return $new_moment;
 }
 
-=head1 minus()
+=head2 minus()
 
 Method minus() returns new object that differ from the original to the
 specified time. The class of the new object is the same as the class of the
@@ -855,7 +857,7 @@ sub minus {
     return $new_moment;
 }
 
-=head1 get_month_start()
+=head2 get_month_start()
 
 Method get_month_start() returns new object that points to the moment
 the month starts. The class of the new object is the same as the class of the
@@ -888,7 +890,7 @@ sub get_month_start {
     return $start;
 }
 
-=head1 get_month_end()
+=head2 get_month_end()
 
 Method get_month_end() returns new object that points to the moment
 the month end. The class of the new object is the same as the class of the
