@@ -1062,6 +1062,10 @@ differ from one to anoter. Because of that some touth questions appear. For
 example what should we get if we add 1 year to the date 2000-02-29? To make
 this library as simple as possible, I've desided to remove this feature.
 
+Q: How does this library works with leap seconds?
+
+A: It does not. This library knows nothing about leap seconds.
+
 =cut
 
 1;
