@@ -110,6 +110,8 @@ Features and limitations of this library:
 
 =over
 
+=item * Library is as simple as possible
+
 =item * Class represents only UTC time, no timezone info
 
 =item * Object orentied design
