@@ -1101,6 +1101,29 @@ don't want to choose one possobility, but implementing all possobilities
 makes eveything harder. To make this library as simple as possible, I've
 desided not to implement this feature.
 
+Q: How to serialize this object and deserialize it?
+
+A: There are 2 ways. To use timestamp as the serialised string or to use
+dt. Timestamp or dt contaings all the needed data to recreate the object with
+the exact same state.
+
+Serialize timestamp:
+
+    my $serialized_timestamp = $moment->get_timestamp();
+
+Restore timestamp:
+
+    my $restored_moment = Moment->new( timestamp => $serialized_timestamp );
+
+
+Serialize dt:
+
+    my $serialized_dt = $moment->get_dt();
+
+Restore dt:
+
+    my $other_restored_moment = Moment->new( dt => $serialized_dt );
+
 =cut
 
 1;
