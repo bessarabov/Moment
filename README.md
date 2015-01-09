@@ -1,6 +1,8 @@
 # Moment
 
-This is a Perl library. It is not ready yet.
+This is a source code for the Perl library Moment.
+
+Please visit https://metacpan.org/pod/Moment for documentation.
 
 [![Build Status](https://travis-ci.org/bessarabov/Moment.svg?branch=master)](https://travis-ci.org/bessarabov/Moment)
 
