@@ -1129,6 +1129,13 @@ Q: I need my own output format.
 A: This is simple. Just write your own class using Moment as the parent and
 implement method that you need.
 
+Q: Why there is a limitation that this module work only with dates in the
+range from '1800-01-01 00:00:00' to '2199-12-31 23:59:59'?
+
+A: One of the main ideas behind this libraray is simplicity. Adding this
+limitations makes the creation and testing of this library simplier. And this
+limits are enouth for real life problems.
+
 =cut
 
 1;
