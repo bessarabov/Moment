@@ -17,7 +17,7 @@ use Scalar::Util qw(blessed);
 Moment is a Perl library. With this library you can create object that
 represent some moment in time.
 
-The librady works with date and time in the UTC timezone. The purpose of not
+The library works with date and time in the UTC timezone. The purpose of not
 supporting other timezones is to force good practice in working with time.
 The best way to manage time in program is to store and to work with time in
 UTC.
