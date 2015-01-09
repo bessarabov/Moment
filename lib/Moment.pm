@@ -1066,6 +1066,25 @@ Q: How does this library works with leap seconds?
 
 A: It does not. This library knows nothing about leap seconds.
 
+Q: How should I handle timezones with this module?
+
+A: The best practice to work with time is to work witn time in UTC timezone.
+This means converting all inputs to UTC timezone and converting it to the
+desired timezones on output.
+
+You must find out the offset from the UTC timezone and use plus() or minus()
+methods to create object with UTC time.
+
+For example, if you have time '2014-12-20 18:51:20 +0300' you should create
+Moment object with the code:
+
+    my $m = Moment->new( dt => '2014-12-20 18:51:20' )->minus( hour => 3 );
+
+And if you need to output the time in some special timezone you shlould to
+the same thing:
+
+    say $m->plus( hour => 5, minute => 30 )->get_dt();
+
 =cut
 
 1;
