@@ -1124,6 +1124,11 @@ Restore dt:
 
     my $other_restored_moment = Moment->new( dt => $serialized_dt );
 
+Q: I need my own output format.
+
+A: This is simple. Just write your own class using Moment as the parent and
+implement method that you need.
+
 =cut
 
 1;
