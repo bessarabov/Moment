@@ -798,7 +798,6 @@ Method minus() returns new object that differ from the original to the
 specified time. The class of the new object is the same as the class of the
 variable on which you run method.
 
-
     my $new_moment = $moment->minus(
         day => 1,
         hour => 2,
