@@ -1136,6 +1136,28 @@ A: One of the main ideas behind this libraray is simplicity. Adding this
 limitations makes the creation and testing of this library simplier. And this
 limits are enouth for real life problems.
 
+=head1 SEE ALSO
+
+=over
+
+=item * L<DateTime> - excellent library. If library Moment does not suit you,
+please consider using DateTime
+
+=item * L<https://what-if.xkcd.com/26/> - great explanation of the leap
+seconds
+
+=back
+
+=head1 SOURCE CODE
+
+The source code for this library is hosted on GitHub
+L<https://github.com/bessarabov/Moment>
+
+=head1 BUGS
+
+Please report any bugs or feature requests in GitHub Issues
+L<https://github.com/bessarabov/Moment/issues>
+
 =cut
 
 1;
