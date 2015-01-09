@@ -1094,6 +1094,13 @@ A: There are several ways to define what is the first week in year. To make
 this library as simple as possible, I've desided not to implement this
 feature.
 
+Q: Why there is no are no numbers to represent week days?
+
+A: There are several ways to define what is the first day of week. And I
+don't want to choose one possobility, but implementing all possobilities
+makes eveything harder. To make this library as simple as possible, I've
+desided not to implement this feature.
+
 =cut
 
 1;
