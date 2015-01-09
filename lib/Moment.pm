@@ -1062,7 +1062,8 @@ A: It is easy to add or substidude second, minute, hour or day from some
 date. But month and year are different. The number of days in month and year
 differ from one to anoter. Because of that some touth questions appear. For
 example what should we get if we add 1 year to the date 2000-02-29? To make
-this library as simple as possible, I've desided to remove this feature.
+this library as simple as possible, I've desided not to implement this
+feature.
 
 Q: How does this library works with leap seconds?
 
@@ -1086,6 +1087,12 @@ And if you need to output the time in some special timezone you shlould to
 the same thing:
 
     say $m->plus( hour => 5, minute => 30 )->get_dt();
+
+Q: Why there are no methods to find out the week number?
+
+A: There are several ways to define what is the first week in year. To make
+this library as simple as possible, I've desided not to implement this
+feature.
 
 =cut
 
