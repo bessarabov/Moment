@@ -1051,6 +1051,17 @@ Find out how many seconds in one day (the answer is 86400):
     my $moment = Moment->now();
     my $seconds_in_a_day = $moment->get_timestamp() - $moment->minus( day => 1 )->get_timestamp();
 
+=head1 FAQ
+
+Q: Why there is no parameters 'month' and 'year' in plus() and minus()
+methods?
+
+A: It is easy to add or substidude second, minute, hour or day from some
+date. But month and year are different. The number of days in month and year
+differ from one to anoter. Because of that some touth questions appear. For
+example what should we get if we add 1 year to the date 2000-02-29? To make
+this library as simple as possible, I've desided to remove this feature.
+
 =cut
 
 1;
