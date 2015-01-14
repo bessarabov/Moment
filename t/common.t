@@ -9,6 +9,8 @@ sub main_in_test {
     my $tests = [
         {
             dt => '1800-01-01 00:00:00',
+            d => '1800-01-01',
+            t => '00:00:00',
             timestamp => -5364662400,
             year => 1800,
             month => 1,
@@ -22,6 +24,8 @@ sub main_in_test {
         },
         {
             dt => '1970-01-01 00:00:00',
+            d => '1970-01-01',
+            t => '00:00:00',
             timestamp => 0,
             year => 1970,
             month => 1,
@@ -35,6 +39,8 @@ sub main_in_test {
         },
         {
             dt => '1999-02-03 01:02:03',
+            d => '1999-02-03',
+            t => '01:02:03',
             timestamp => 918003723,
             year => 1999,
             month => 2,
@@ -48,6 +54,8 @@ sub main_in_test {
         },
         {
             dt => '1999-02-28 01:02:03',
+            d => '1999-02-28',
+            t => '01:02:03',
             timestamp => 920163723,
             year => 1999,
             month => 2,
@@ -61,6 +69,8 @@ sub main_in_test {
         },
         {
             dt => '2000-02-03 01:02:03',
+            d => '2000-02-03',
+            t => '01:02:03',
             timestamp => 949539723,
             year => 2000,
             month => 2,
@@ -74,6 +84,8 @@ sub main_in_test {
         },
         {
             dt => '2000-02-29 01:02:03',
+            d => '2000-02-29',
+            t => '01:02:03',
             timestamp => 951786123,
             year => 2000,
             month => 2,
@@ -87,6 +99,8 @@ sub main_in_test {
         },
         {
             dt => '2014-11-29 23:44:10',
+            d => '2014-11-29',
+            t => '23:44:10',
             timestamp => 1417304650,
             year => 2014,
             month => 11,
@@ -100,6 +114,8 @@ sub main_in_test {
         },
         {
             dt => '2014-07-03 01:02:03',
+            d => '2014-07-03',
+            t => '01:02:03',
             timestamp => 1404349323,
             year => 2014,
             month => 7,
@@ -113,6 +129,8 @@ sub main_in_test {
         },
         {
             dt => '2199-12-31 23:59:59',
+            d => '2199-12-31',
+            t => '23:59:59',
             timestamp => 7258118399,
             year => 2199,
             month => 12,
@@ -143,6 +161,8 @@ sub main_in_test {
         foreach my $moment (@{$moments}) {
             is($moment->get_timestamp(), $test->{timestamp}, 'get_timestamp()');
             is($moment->get_dt(), $test->{dt}, 'get_dt()');
+            is($moment->get_d(), $test->{d}, 'get_d()');
+            is($moment->get_t(), $test->{t}, 'get_t()');
 
             is($moment->get_year(), $test->{year}, 'get_year()');
             is($moment->get_month(), $test->{month}, 'get_month()');

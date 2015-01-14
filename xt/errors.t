@@ -375,6 +375,8 @@ sub test_methods_without_params {
     my @methods = qw(
         get_timestamp
         get_dt
+        get_d
+        get_t
         get_year
         get_month
         get_day

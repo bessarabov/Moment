@@ -55,6 +55,8 @@ Here are the methods to get the values that was used in constructor:
 
     #'2014-11-27 03:31:23'
     my $dt = $moment->get_dt();
+    my $d = $moment->get_d();
+    my $t = $moment->get_t();
 
     my $year = $moment->get_year();
     my $month = $moment->get_month();
@@ -320,6 +322,9 @@ sub new {
         croak "Incorrect usage. new() must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped"
     }
 
+    $self->{_d} = substr($self->{_dt}, 0, 10);
+    $self->{_t} = substr($self->{_dt}, 11, 8);
+
     $self->{_weekday_name} = $self->_get_weekday_name($self->{_timestamp});
 
     return $self;
@@ -400,6 +405,50 @@ sub get_dt {
     }
 
     return $self->{_dt};
+}
+
+=head2 get_d()
+
+Returns the scalar with date of the moment stored in the object.
+The data in scalar is in format 'YYYY-MM-DD'.
+
+    say Moment->now()->get_d(); # 2014-12-07
+
+The value that return this method is in the range ['1800-01-01',
+'2199-12-31'].
+
+=cut
+
+sub get_d {
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_d() shouldn\'t get any params. Stopped';
+    }
+
+    return $self->{_d};
+}
+
+=head2 get_t()
+
+Returns the scalar with time of the moment stored in the object.
+The data in scalar is in format 'hh:mm:ss'.
+
+    say Moment->now()->get_t(); # 11:50:57
+
+The value that return this method is in the range ['00:00:00',
+'23:59:59'].
+
+=cut
+
+sub get_t {
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_t() shouldn\'t get any params. Stopped';
+    }
+
+    return $self->{_t};
 }
 
 =head2 get_year()
