@@ -74,6 +74,10 @@ object. You can get scalar with the weekday name:
     # 'monday', 'tuesday' and others
     my $string = $moment->get_weekday_name();
 
+Or you can get weekday number (specifying what weekday should be number one):
+
+    my $number = $moment->get_weekday_number( first_day => 'monday' );
+
 Or you can test if the weekday of the moment is some specified weekday:
 
     $moment->is_monday();
@@ -325,7 +329,18 @@ sub new {
     $self->{_d} = substr($self->{_dt}, 0, 10);
     $self->{_t} = substr($self->{_dt}, 11, 8);
 
-    $self->{_weekday_name} = $self->_get_weekday_name($self->{_timestamp});
+    my %wday2name = (
+        0 => 'sunday',
+        1 => 'monday',
+        2 => 'tuesday',
+        3 => 'wednesday',
+        4 => 'thursday',
+        5 => 'friday',
+        6 => 'saturday',
+    );
+
+    $self->{_weekday_number} = $self->_get_weekday_number($self->{_timestamp});
+    $self->{_weekday_name} = $wday2name{$self->{_weekday_number}};
 
     return $self;
 }
@@ -614,6 +629,66 @@ sub get_weekday_name {
     }
 
     return $self->{_weekday_name};
+}
+
+=head2 get_weekday_number()
+
+    my $number = $moment->get_weekday_number( first_day => 'monday' );
+
+Returns scalar with weekday number.
+
+The value that return this method is in the range [1, 7].
+
+You must specify value for the first_day parameter. It should be one of:
+'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'.
+
+    my $m = Moment->new( dt => '2015-04-27 00:00:00');  # monday
+
+    $m->get_weekday_number( first_day => 'monday' ); # 1
+    $m->get_weekday_number( first_day => 'sunday' ); # 2
+
+=cut
+
+sub get_weekday_number {
+    my ($self, @params) = @_;
+
+    if (@params == 0) {
+        croak "Incorrect usage. get_weekday_number() must get param: first_day. Stopped";
+    }
+
+    if (@params % 2 != 0) {
+        croak "Incorrect usage. get_weekday_number() must get hash like: `get_weekday_number( first_day => 'monday' )`. Stopped";
+    }
+
+    my %params = @params;
+
+    my $first_day = delete $params{first_day};
+
+    if (%params) {
+        croak "Incorrect usage. get_weekday_number() got unknown params: '" . join("', '", (sort keys %params)) . "'. Stopped";
+    }
+
+    my %name2number = (
+        sunday => 1,
+        monday => 0,
+        tuesday => -1,
+        wednesday => -2,
+        thursday => -3,
+        friday => -4,
+        saturday => -5,
+    );
+
+    if (not exists $name2number{$first_day}) {
+        croak "Incorrect usage. get_weekday_number() got unknown value '$first_day' for first_day. Stopped";
+    }
+
+    my $number = $self->{_weekday_number} + $name2number{$first_day};
+
+    if ($number < 1) {
+        $number+=7;
+    }
+
+    return $number;
 }
 
 =head2 is_monday()
@@ -971,23 +1046,13 @@ sub get_month_end {
     return $end;
 }
 
-sub _get_weekday_name {
+sub _get_weekday_number {
     my ($self, $timestamp) = @_;
-
-    my %wday2name = (
-        0 => 'sunday',
-        1 => 'monday',
-        2 => 'tuesday',
-        3 => 'wednesday',
-        4 => 'thursday',
-        5 => 'friday',
-        6 => 'saturday',
-    );
 
     my ($second,$minute,$hour,$day,$month,$year,$wday,$yday,$isdst)
         = gmtime($timestamp);
 
-    return $wday2name{$wday};
+    return $wday;
 }
 
 # https://metacpan.org/pod/Data::Printer#MAKING-YOUR-CLASSES-DDP-AWARE-WITHOUT-ADDING-ANY-DEPS
@@ -1138,12 +1203,6 @@ And if you need to output the time in some special timezone you shlould to
 the same thing:
 
     say $m->plus( hour => 5, minute => 30 )->get_dt();
-
-Q: Why there are no methods to find out the week number?
-
-A: There are several ways to define what is the first week in year. To make
-this library as simple as possible, I've desided not to implement this
-feature.
 
 Q: Why there is no are no numbers to represent week days?
 

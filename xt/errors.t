@@ -403,7 +403,35 @@ sub test_methods_without_params {
             "$method( 'asdf' ) dies, because it should not get param",
         );
     }
+}
 
+sub test_get_weekday_number {
+
+    my $moment = Moment->new( dt => '2001-01-01 01:02:03');
+
+    throws_ok(
+        sub { $moment->get_weekday_number() },
+        qr{Incorrect usage\. get_weekday_number\(\) must get param: first_day. Stopped at},
+        'get_weekday_number() dies because it should get first_day param',
+    );
+
+    throws_ok(
+        sub { $moment->get_weekday_number( 123 ) },
+        qr{Incorrect usage\. get_weekday_number\(\) must get hash like: `get_weekday_number\( first_day => 'monday' \)`\. Stopped},
+        'get_weekday_number() dies because it should get hash',
+    );
+
+    throws_ok(
+        sub { $moment->get_weekday_number( incorrect_parameter => 123 ) },
+        qr{Incorrect usage\. get_weekday_number\(\) got unknown params: 'incorrect_parameter'\. Stopped},
+        'get_weekday_number() dies with incorrect parameter',
+    );
+
+    throws_ok(
+        sub { $moment->get_weekday_number( first_day => 123 ) },
+        qr{Incorrect usage\. get_weekday_number\(\) got unknown value '123' for first_day\. Stopped},
+        'get_weekday_number() dies with incorrect value for first_day',
+    );
 }
 
 sub main_in_test {
@@ -414,6 +442,7 @@ sub main_in_test {
     test_minus();
     test_cmp();
     test_methods_without_params();
+    test_get_weekday_number();
 
     done_testing;
 
