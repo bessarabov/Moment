@@ -11,3 +11,10 @@ Revision history for Moment
 1.1.0   2015-01-14
         [Minor]
         * New methods get_d() & get_t()
+
+1.2.0   2015-04-29
+        [Minor]
+        * New method get_weekday_number()
+
+        [Patch]
+        * Adding SemVer levels to Changes
