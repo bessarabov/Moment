@@ -133,7 +133,7 @@ Features and limitations of this library:
 
 =item * No dependencies, but perl and its core modules
 
-=item * Plays well with Data::Printer
+=item * Plays well with L<Data::Printer>
 
 =item * Using SemVer for version numbers
 
