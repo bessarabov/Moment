@@ -1204,12 +1204,11 @@ the same thing:
 
     say $m->plus( hour => 5, minute => 30 )->get_dt();
 
-Q: Why there is no are no numbers to represent week days?
+Q: Why there are no methods to find out the week number?
 
-A: There are several ways to define what is the first day of week. And I
-don't want to choose one possobility, but implementing all possobilities
-makes eveything harder. To make this library as simple as possible, I've
-desided not to implement this feature.
+A: There are several ways to define what is the first week in year. To make
+this library as simple as possible, I've desided not to implement this
+feature.
 
 Q: How to serialize this object and deserialize it?
 
