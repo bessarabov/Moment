@@ -18,3 +18,8 @@ Revision history for Moment
 
         [Patch]
         * Adding SemVer levels to Changes
+
+1.2.1   2015-08-02
+        [Patch]
+        * Removed FAQ question about week day number and returned question about week number
+        * Making Data::Printer to be link in POD
