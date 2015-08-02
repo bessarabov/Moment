@@ -1255,6 +1255,9 @@ please consider using DateTime
 =item * L<https://what-if.xkcd.com/26/> - great explanation of the leap
 seconds
 
+=item * L<https://en.wikipedia.org/wiki/ISO_8601> - international standard
+covering the exchange of date and time-related data
+
 =back
 
 =head1 SOURCE CODE
