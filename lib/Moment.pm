@@ -22,7 +22,7 @@ supporting other timezones is to force good practice in working with time.
 The best way to manage time in program is to store and to work with time in
 UTC.
 
-There are 3 ways you can create new object with the new() constructor:
+There are 4 ways you can create new object with the new() constructor:
 
     my $some_moment = Moment->new(
         # dt format is 'YYYY-MM-DD hh:mm:ss'
@@ -42,6 +42,11 @@ There are 3 ways you can create new object with the new() constructor:
     my $one_more_moment = Moment->new(
         # Unix time (a.k.a. POSIX time or Epoch time)
         timestamp => 1000000000,
+    );
+
+    my $moment_from_iso_string = Moment->new(
+        # ISO 8601
+        iso_string => '2015-11-07T10:51:22Z',
     );
 
 You can also use now() constructor to create object that points to the current
@@ -67,6 +72,9 @@ Here are the methods to get the values that was used in constructor:
 
     # Unix time (a.k.a. POSIX time or Epoch time)
     my $number = $moment->get_timestamp();
+
+    # ISO 8601
+    my $iso_string => $moment->get_iso_string();
 
 You can find out what is the day of week of the moment that is stored in the
 object. You can get scalar with the weekday name:
@@ -146,7 +154,7 @@ Features and limitations of this library:
 =head2 new()
 
 Constructor. Creates new Moment object that points to the specified moment
-of time. Can be used in 3 different ways:
+of time. Can be used in 4 different ways:
 
     my $some_moment = Moment->new(
         # dt format is 'YYYY-MM-DD hh:mm:ss'
@@ -166,6 +174,11 @@ of time. Can be used in 3 different ways:
     my $one_more_moment = Moment->new(
         # Unix time (a.k.a. POSIX time or Epoch time)
         timestamp => 1000000000,
+    );
+
+    my $moment_from_iso_string = Moment->new(
+        # ISO 8601
+        iso_string => '2015-11-07T10:51:22Z',
     );
 
 Dies in case of errors.
@@ -199,6 +212,8 @@ sub new {
     my $input_minute = delete $params{minute};
     my $input_second = delete $params{second};
 
+    my $input_iso_string = delete $params{iso_string};
+
     my $input_dt = delete $params{dt};
 
     my $input_timestamp = delete $params{timestamp};
@@ -208,6 +223,50 @@ sub new {
     }
 
     my $way = 0;
+
+    if (defined($input_iso_string)) {
+        $way++;
+
+        if ($input_iso_string =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z\Z/) {
+            $self->{_year} = $1;
+            $self->{_month} = $2 + 0;
+            $self->{_day} = $3 + 0;
+            $self->{_hour} = $4 + 0;
+            $self->{_minute} = $5 + 0;
+            $self->{_second} = $6 + 0;
+        } else {
+            my $safe_iso_string = 'undef';
+            $safe_iso_string = "'$input_iso_string'" if defined $input_iso_string;
+            croak "Incorrect usage. dt $safe_iso_string is not in expected format 'YYYY-MM-DDThh:mm:ssZ'. Stopped";
+        }
+
+        $self->_get_range_value_or_die( 'year', $self->{_year}, 1800, 2199 );
+        $self->_get_range_value_or_die( 'month', $self->{_month}, 1, 12 );
+        $self->_get_range_value_or_die( 'day', $self->{_day}, 1, $self->_get_last_day_in_year_month( $self->{_year}, $self->{_month}) );
+        $self->_get_range_value_or_die( 'hour', $self->{_hour}, 0, 23 );
+        $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
+        $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
+
+        $self->{_timestamp} = timegm_nocheck(
+            $self->{_second},
+            $self->{_minute},
+            $self->{_hour},
+            $self->{_day},
+            $self->{_month}-1,
+            $self->{_year},
+        );
+
+        $self->{_dt} = sprintf(
+            "%04d-%02d-%02d %02d:%02d:%02d",
+            $self->{_year},
+            $self->{_month},
+            $self->{_day},
+            $self->{_hour},
+            $self->{_minute},
+            $self->{_second},
+        );
+
+    }
 
     if (defined($input_timestamp)) {
         $way++;
@@ -420,6 +479,32 @@ sub get_dt {
     }
 
     return $self->{_dt};
+}
+
+=head2 get_iso_string()
+
+Returns the scalar with date and time of the moment stored in the object.
+The data in scalar is in ISO 8601 format 'YYYY-MM-DDThh:mm:ssZ'.
+
+    say Moment->now()->get_iso_string(); # 2014-12-07T11:50:57Z
+
+The value that return this method is in the range ['1800-01-01T00:00:00Z',
+'2199-12-31T23:59:59Z'].
+
+=cut
+
+sub get_iso_string {
+    my ($self, @params) = @_;
+
+    if (@params) {
+        croak 'Incorrect usage. get_iso_string() shouldn\'t get any params. Stopped';
+    }
+
+    my $iso_string = $self->{_dt};
+    $iso_string =~ s/ /T/;
+    $iso_string .= 'Z';
+
+    return $iso_string;
 }
 
 =head2 get_d()
@@ -1212,9 +1297,9 @@ feature.
 
 Q: How to serialize this object and deserialize it?
 
-A: There are 2 ways. To use timestamp as the serialised string or to use
-dt. Timestamp or dt contaings all the needed data to recreate the object with
-the exact same state.
+A: There are 3 ways. To use timestamp as the serialised string, to use ISO
+string, or to use dt. Timestamp, ISO string or dt contaings all the needed
+data to recreate the object with the exact same state.
 
 Serialize timestamp:
 
@@ -1224,6 +1309,13 @@ Restore timestamp:
 
     my $restored_moment = Moment->new( timestamp => $serialized_timestamp );
 
+Serialize ISO string:
+
+    my $serialized_iso_string = $moment->get_iso_string();
+
+Restore ISO string:
+
+    my $restored_moment = Moment->new( iso_string => $serialized_iso_string );
 
 Serialize dt:
 
@@ -1231,7 +1323,7 @@ Serialize dt:
 
 Restore dt:
 
-    my $other_restored_moment = Moment->new( dt => $serialized_dt );
+    my $restored_moment = Moment->new( dt => $serialized_dt );
 
 Q: I need my own output format.
 

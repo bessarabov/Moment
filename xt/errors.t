@@ -373,6 +373,7 @@ sub test_methods_without_params {
     my $m = Moment->new( dt => '2000-01-01 00:00:00');
 
     my @methods = qw(
+        get_iso_string
         get_timestamp
         get_dt
         get_d

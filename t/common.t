@@ -8,6 +8,7 @@ sub main_in_test {
 
     my $tests = [
         {
+            iso_string => '1800-01-01T00:00:00Z',
             dt => '1800-01-01 00:00:00',
             d => '1800-01-01',
             t => '00:00:00',
@@ -23,6 +24,7 @@ sub main_in_test {
             month_end_dt => '1800-01-31 23:59:59',
         },
         {
+            iso_string => '1970-01-01T00:00:00Z',
             dt => '1970-01-01 00:00:00',
             d => '1970-01-01',
             t => '00:00:00',
@@ -38,6 +40,7 @@ sub main_in_test {
             month_end_dt => '1970-01-31 23:59:59',
         },
         {
+            iso_string => '1999-02-03T01:02:03Z',
             dt => '1999-02-03 01:02:03',
             d => '1999-02-03',
             t => '01:02:03',
@@ -53,6 +56,7 @@ sub main_in_test {
             month_end_dt => '1999-02-28 23:59:59',
         },
         {
+            iso_string => '1999-02-28T01:02:03Z',
             dt => '1999-02-28 01:02:03',
             d => '1999-02-28',
             t => '01:02:03',
@@ -68,6 +72,7 @@ sub main_in_test {
             month_end_dt => '1999-02-28 23:59:59',
         },
         {
+            iso_string => '2000-02-03T01:02:03Z',
             dt => '2000-02-03 01:02:03',
             d => '2000-02-03',
             t => '01:02:03',
@@ -83,6 +88,7 @@ sub main_in_test {
             month_end_dt => '2000-02-29 23:59:59',
         },
         {
+            iso_string => '2000-02-29T01:02:03Z',
             dt => '2000-02-29 01:02:03',
             d => '2000-02-29',
             t => '01:02:03',
@@ -98,6 +104,7 @@ sub main_in_test {
             month_end_dt => '2000-02-29 23:59:59',
         },
         {
+            iso_string => '2014-11-29T23:44:10Z',
             dt => '2014-11-29 23:44:10',
             d => '2014-11-29',
             t => '23:44:10',
@@ -113,6 +120,7 @@ sub main_in_test {
             month_end_dt => '2014-11-30 23:59:59',
         },
         {
+            iso_string => '2014-07-03T01:02:03Z',
             dt => '2014-07-03 01:02:03',
             d => '2014-07-03',
             t => '01:02:03',
@@ -128,6 +136,7 @@ sub main_in_test {
             month_end_dt => '2014-07-31 23:59:59',
         },
         {
+            iso_string => '2199-12-31T23:59:59Z',
             dt => '2199-12-31 23:59:59',
             d => '2199-12-31',
             t => '23:59:59',
@@ -146,6 +155,7 @@ sub main_in_test {
 
     foreach my $test (@{$tests}) {
         my $moments = [
+            Moment->new( iso_string => $test->{iso_string} ),
             Moment->new( timestamp => $test->{timestamp} ),
             Moment->new( dt => $test->{dt} ),
             Moment->new(
@@ -159,6 +169,7 @@ sub main_in_test {
         ];
 
         foreach my $moment (@{$moments}) {
+            is($moment->get_iso_string(), $test->{iso_string}, 'get_iso_string()');
             is($moment->get_timestamp(), $test->{timestamp}, 'get_timestamp()');
             is($moment->get_dt(), $test->{dt}, 'get_dt()');
             is($moment->get_d(), $test->{d}, 'get_d()');
@@ -178,7 +189,6 @@ sub main_in_test {
         }
 
     }
-
 
     done_testing;
 
