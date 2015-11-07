@@ -227,7 +227,7 @@ sub new {
     if (defined($input_iso_string)) {
         $way++;
 
-        if ($input_iso_string =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z\Z/) {
+        if ($input_iso_string =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z\z/) {
             $self->{_year} = $1;
             $self->{_month} = $2 + 0;
             $self->{_day} = $3 + 0;
@@ -338,7 +338,7 @@ sub new {
     if (defined($input_dt)) {
         $way++;
 
-        if ($input_dt =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})\Z/) {
+        if ($input_dt =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})\z/) {
             $self->{_year} = $1;
             $self->{_month} = $2 + 0;
             $self->{_day} = $3 + 0;
@@ -1152,7 +1152,7 @@ sub _data_printer {
 sub _is_int {
     my ($self, $maybe_int) = @_;
 
-    return $maybe_int =~ /\A0\Z|\A-?[1-9][0-9]*\Z/;
+    return $maybe_int =~ /\A0\z|\A-?[1-9][0-9]*\z/;
 }
 
 sub _get_value_or_die {
