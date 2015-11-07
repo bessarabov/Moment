@@ -1146,7 +1146,7 @@ sub _data_printer {
 
     require Term::ANSIColor;
 
-    return Term::ANSIColor::colored($self->get_dt() . ' UTC', 'yellow');
+    return Term::ANSIColor::colored($self->get_iso_string(), 'yellow');
 }
 
 sub _is_int {
