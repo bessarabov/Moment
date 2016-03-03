@@ -1245,7 +1245,7 @@ Loop for every day in month:
         $current = $current->plus( day => 1 );
     }
 
-Find out the weekday name for given date (for 2014-01-01 is is wednesday):
+Find out the weekday name for given date (for 2014-01-01 it is wednesday):
 
     my $weekday = Moment->new( dt => '2014-01-01 00:00:00' )->get_weekday_name();
 
