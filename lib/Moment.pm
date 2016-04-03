@@ -595,7 +595,7 @@ sub get_month {
 
 =head2 get_day()
 
-Returns the scalar with number of day since the beginning of mongth of the
+Returns the scalar with number of day since the beginning of month of the
 moment stored in the object.
 
     say Moment->now()->get_day(); # 7
