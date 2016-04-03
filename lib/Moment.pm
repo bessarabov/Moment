@@ -6,7 +6,6 @@ use strict;
 use warnings FATAL => 'all';
 
 use Carp qw(croak);
-use Time::Local qw(timegm_nocheck);
 use Scalar::Util qw(blessed);
 
 =encoding UTF-8
@@ -247,7 +246,7 @@ sub new {
         $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
         $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
 
-        $self->{_timestamp} = timegm_nocheck(
+        $self->{_timestamp} = $self->_timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -314,7 +313,7 @@ sub new {
         $self->{_minute} = $self->_get_range_value_or_die( 'minute', $input_minute, 0, 59 );
         $self->{_second} = $self->_get_range_value_or_die( 'second', $input_second, 0, 59 );
 
-        $self->{_timestamp} = timegm_nocheck(
+        $self->{_timestamp} = $self->_timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -358,7 +357,7 @@ sub new {
         $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
         $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
 
-        $self->{_timestamp} = timegm_nocheck(
+        $self->{_timestamp} = $self->_timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -1226,6 +1225,57 @@ sub _get_last_day_in_year_month {
     }
 
     return $last_day;
+}
+
+=begin comment _timegm_nocheck
+
+Reimplementing timegm_nocheck() from module Time::Local.
+
+I had to reimplemeent it because it does not work on several old os/perl
+versions: L<http://matrix.cpantesters.org/?dist=Moment+1.3.0>
+
+=end comment
+
+=cut
+
+sub _timegm_nocheck {
+    my ($self, $second, $minute, $hour, $day, $month, $year) = @_;
+
+#use DDP;
+#p \@_;
+#
+#    use Time::Local qw(timegm_nocheck);
+#
+#    return timegm_nocheck($second, $minute, $hour, $day, $month, $year);
+
+    my $secs_per_minute = 60;
+    my $secs_per_hour = 3600;
+    my $secs_per_day = 86400;
+    my $secs_per_year = 31536000;
+
+    my $number_of_leap_days = $self->_get_number_of_leap_days_between_2_years(1970, $year);
+
+    $year -= 1970;
+    $day -= 1;
+
+    return $second
+        + $secs_per_minute * $minute
+        + $secs_per_hour * $hour
+        + $secs_per_day * $day
+        + $secs_per_year * $year
+        + ($month > 0 ? $self->_get_last_day_in_year_month(2001, $month) * $secs_per_day : 0)
+        + $secs_per_day * $number_of_leap_days
+        ;
+}
+
+sub _get_number_of_leap_days_between_2_years {
+    my ($self, $year1, $year2) = @_;
+
+    if ($year2 > 1972) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 =head1 SAMPLE USAGE
