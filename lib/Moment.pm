@@ -247,7 +247,7 @@ sub new {
         $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
         $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
 
-        $self->{_timestamp} = timegm_nocheck(
+        $self->{_timestamp} = _timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -314,7 +314,7 @@ sub new {
         $self->{_minute} = $self->_get_range_value_or_die( 'minute', $input_minute, 0, 59 );
         $self->{_second} = $self->_get_range_value_or_die( 'second', $input_second, 0, 59 );
 
-        $self->{_timestamp} = timegm_nocheck(
+        $self->{_timestamp} = _timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -358,7 +358,7 @@ sub new {
         $self->_get_range_value_or_die( 'minute', $self->{_minute}, 0, 59 );
         $self->_get_range_value_or_die( 'second', $self->{_second}, 0, 59 );
 
-        $self->{_timestamp} = timegm_nocheck(
+        $self->{_timestamp} = _timegm_nocheck(
             $self->{_second},
             $self->{_minute},
             $self->{_hour},
@@ -909,7 +909,7 @@ sub is_leap_year {
         croak 'Incorrect usage. is_leap_year() shouldn\'t get any params. Stopped';
     }
 
-    return $self->_is_leap_year( $self->get_year() );
+    return _is_leap_year( undef, $self->get_year() );
 }
 
 =head2 cmp()
@@ -1216,7 +1216,7 @@ sub _get_last_day_in_year_month {
     my $last_day;
 
     if ($month == 2) {
-        if ($self->_is_leap_year($year)) {
+        if (_is_leap_year(undef, $year)) {
             $last_day = 29;
         } else {
             $last_day = 28;
@@ -1226,6 +1226,63 @@ sub _get_last_day_in_year_month {
     }
 
     return $last_day;
+}
+
+=begin comment _timegm_nocheck
+
+This is just the reimplementation of Time::Local::timegm_nocheck()
+
+I had to reimplement it because using Time::Local::timegm_nocheck() breaks
+tests on some exotic operation systems (I've found this problem because
+of cpan testing infrastracture).
+
+=end comment
+
+=cut
+
+sub _timegm_nocheck {
+    my ($second, $minute, $hour, $day, $month, $year) = @_;
+
+    my $timestamp = 0;
+
+    if (1) {
+        $timestamp += $second;
+        $timestamp += $minute*60;
+        $timestamp += $hour*60*60;
+        $timestamp += ($day-1)*60*60*24;
+        $timestamp += ($year-1970) * 31536000;
+
+        foreach my $month_number (1..$month) {
+            my $number_of_days = _get_last_day_in_year_month(undef, $year, $month_number);
+            $timestamp += $number_of_days * 86400;
+        }
+
+        my $number_of_leep_years = 0;
+        if ($year > 1970) {
+            foreach my $y (1970..$year) {
+                if ( _is_leap_year( undef, $y ) ) {
+                    $number_of_leep_years++;
+                }
+            }
+        }
+
+        if ( _is_leap_year( undef, $year ) && $month < 3 ){
+            $timestamp -= 86400;
+        }
+
+        $timestamp += $number_of_leep_years * 86400;
+    } else {
+        $timestamp = timegm_nocheck(
+            $second,
+            $minute,
+            $hour,
+            $day,
+            $month,
+            $year,
+        );
+    }
+
+    return $timestamp;
 }
 
 =head1 SAMPLE USAGE
