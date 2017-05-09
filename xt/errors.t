@@ -98,119 +98,107 @@ sub test_new {
 
 sub test_new_dt {
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                dt => '2000-1-1 23:59:59',
-            );
+    my @tests = (
+        {
+            value => undef,
+            error => "Incorrect usage. new() must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped at",
         },
-        qr{Incorrect usage\. dt '2000-1-1 23:59:59' is not in expected format 'YYYY-MM-DD hh:mm:ss'\. Stopped at},
-        "new( dt => '2000-1-1 23:59:59' )",
+        {
+            value => '2000-1-1 23:59:59',
+            error => "Incorrect usage. dt '2000-1-1 23:59:59' is not in expected format 'YYYY-MM-DD hh:mm:ss'. Stopped at",
+        },
+        {
+            value => '1799-12-31 23:59:59',
+            error => "Incorrect usage. The year '1799' is not in range [1800, 2199]. Stopped at",
+        },
+        {
+            value => '2200-01-01 00:00:00',
+            error => "Incorrect usage. The year '2200' is not in range [1800, 2199]. Stopped at",
+        },
+        {
+            value => '2000-33-01 00:00:00',
+            error => "Incorrect usage. The month '33' is not in range [1, 12]. Stopped at",
+        },
+        {
+            value => '2014-02-29 00:00:00',
+            error => "Incorrect usage. The day '29' is not in range [1, 28]. Stopped at",
+        },
+        {
+            value => '2000-02-30 00:00:00',
+            error => "Incorrect usage. The day '30' is not in range [1, 29]. Stopped at",
+        },
     );
 
-    throws_ok(
-        sub {
+    foreach my $t (@tests) {
+        eval {
             my $n = Moment->new(
-                dt => '1799-12-31 23:59:59',
+                dt => $t->{value},
             );
-        },
-        qr{Incorrect usage\. The year '1799' is not in range \[1800, 2199]\. Stopped at},
-        "new( dt => '1799-12-31 23:59:59' )",
-    );
+        };
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                dt => '2200-01-01 00:00:00',
-            );
-        },
-        qr{Incorrect usage\. The year '2200' is not in range \[1800, 2199]\. Stopped at},
-        "new( dt => '2200-01-01 00:00:00' )",
-    );
+        my $safe_value = defined($t->{value}) ? $t->{value} : 'undef';
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                dt => '2000-33-01 00:00:00',
-            );
-        },
-        qr{Incorrect usage\. The month '33' is not in range \[1, 12]\. Stopped at},
-        "new( dt => '2000-33-01 00:00:00' )",
-    );
+        my $test_name =  "new( dt => '$safe_value' )";
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                dt => '2014-02-29 00:00:00',
-            );
-        },
-        qr{Incorrect usage\. The day '29' is not in range \[1, 28]\. Stopped at},
-        "new( dt => '2014-02-29 00:00:00' )",
-    );
-
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                dt => '2000-02-30 00:00:00',
-            );
-        },
-        qr{Incorrect usage\. The day '30' is not in range \[1, 29]\. Stopped at},
-        "new( dt => '2000-02-30 00:00:00' )",
-    );
+        # if $@ contains $t->{error}
+        if (index($@, $t->{error}) != -1) {
+            pass($test_name);
+        } else {
+            fail($test_name);
+            note("Value:    $safe_value");
+            note("Got:      $@");
+            note("Expected: $t->{error}");
+        }
+    }
 
 }
 
 sub test_new_timestamp {
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                timestamp => undef,
-            );
+    my @tests = (
+        {
+            value => undef,
+            error => "Incorrect usage. new() must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped at",
         },
-        qr{Incorrect usage\. new\(\) must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
-        'new( timestamp => undef )',
+        {
+            value => 'abc',
+            error => "Incorrect usage. The timestamp 'abc' is not an integer number. Stopped at",
+        },
+        {
+            value => 123.5,
+            error => "Incorrect usage. The timestamp '123.5' is not an integer number. Stopped at",
+        },
+        {
+            value => 10_000_000_000,
+            error => "Incorrect usage. The timestamp '10000000000' is not in range [-5364662400, 7258118399]. Stopped at",
+        },
+        {
+            value => -10_000_000_000,
+            error => "Incorrect usage. The timestamp '-10000000000' is not in range [-5364662400, 7258118399]. Stopped at",
+        },
     );
 
-    throws_ok(
-        sub {
+    foreach my $t (@tests) {
+        eval {
             my $n = Moment->new(
-                timestamp => 'abc',
+                timestamp => $t->{value},
             );
-        },
-        qr{Incorrect usage\. The timestamp 'abc' is not an integer number\. Stopped at},
-        'new( timestamp => "abc" )',
-    );
+        };
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                timestamp => 123.5,
-            );
-        },
-        qr{Incorrect usage\. The timestamp '123\.5' is not an integer number\. Stopped at},
-        'new( timestamp => 123.5 )',
-    );
+        my $safe_value = defined($t->{value}) ? $t->{value} : 'undef';
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                timestamp => 10_000_000_000,
-            );
-        },
-        qr{Incorrect usage\. The timestamp '10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
-        'new( timestamp => 10_000_000_000 )',
-    );
+        my $test_name =  "new( timestamp => '$safe_value' )";
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                timestamp => -10_000_000_000,
-            );
-        },
-        qr{Incorrect usage\. The timestamp '-10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
-        'new( timestamp => -10_000_000_000 )',
-    );
+        # if $@ contains $t->{error}
+        if (index($@, $t->{error}) != -1) {
+            pass($test_name);
+        } else {
+            fail($test_name);
+            note("Value:    $safe_value");
+            note("Got:      $@");
+            note("Expected: $t->{error}");
+        }
+    }
 
 }
 
