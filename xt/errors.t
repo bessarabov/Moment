@@ -202,6 +202,47 @@ sub test_new_timestamp {
 
 }
 
+sub test_new_iso_string {
+
+    my @tests = (
+        {
+            value => undef,
+            error => "Incorrect usage. new() must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second. Stopped at",
+        },
+        {
+            value => 'abc',
+            error => "Incorrect usage. iso_string 'abc' is not in expected format 'YYYY-MM-DDThh:mm:ssZ",
+        },
+        {
+            value => '2017-05-09T15:01:70Z',
+            error => "Incorrect usage. The second '70' is not in range [0, 59]. Stopped at",
+        },
+    );
+
+    foreach my $t (@tests) {
+        eval {
+            my $n = Moment->new(
+                iso_string => $t->{value},
+            );
+        };
+
+        my $safe_value = defined($t->{value}) ? $t->{value} : 'undef';
+
+        my $test_name =  "new( iso_string => '$safe_value' )";
+
+        # if $@ contains $t->{error}
+        if (index($@, $t->{error}) != -1) {
+            pass($test_name);
+        } else {
+            fail($test_name);
+            note("Value:    $safe_value");
+            note("Got:      $@");
+            note("Expected: $t->{error}");
+        }
+    }
+
+}
+
 sub test_now {
     throws_ok(
         sub {
@@ -436,6 +477,7 @@ sub main_in_test {
     test_new();
     test_new_dt();
     test_new_timestamp();
+    test_new_iso_string();
     test_now();
     test_plus();
     test_minus();

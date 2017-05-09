@@ -237,7 +237,7 @@ sub new {
         } else {
             my $safe_iso_string = 'undef';
             $safe_iso_string = "'$input_iso_string'" if defined $input_iso_string;
-            croak "Incorrect usage. dt $safe_iso_string is not in expected format 'YYYY-MM-DDThh:mm:ssZ'. Stopped";
+            croak "Incorrect usage. iso_string $safe_iso_string is not in expected format 'YYYY-MM-DDThh:mm:ssZ'. Stopped";
         }
 
         $self->_get_range_value_or_die( 'year', $self->{_year}, 1800, 2199 );

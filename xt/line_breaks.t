@@ -9,7 +9,7 @@ sub main_in_test {
 
     throws_ok(
         sub { my $moment = Moment->new(iso_string => "2015-11-07T17:06:47Z\n"); },
-        qr{Incorrect usage\. dt '.*' is not in expected format 'YYYY-MM-DDThh:mm:ssZ'\. Stopped}s,
+        qr{Incorrect usage\. iso_string '.*' is not in expected format 'YYYY-MM-DDThh:mm:ssZ'\. Stopped}s,
         'new( iso_string => "...\n" ) throws exception',
     );
 
