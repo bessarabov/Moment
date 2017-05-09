@@ -50,52 +50,53 @@ sub test_new {
     throws_ok(
         sub {
             my $n = Moment->new(
-                timestamp => undef,
+                year => 1799,
+                month => 12,
+                day => 31,
+                hour => 23,
+                minute => 59,
+                second => 59,
             );
         },
-        qr{Incorrect usage\. new\(\) must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
-        'new( timestamp => undef )',
+        qr{Incorrect usage\. The year '1799' is not in range \[1800, 2199]\. Stopped at},
+        "new( year => 1799, ... )",
     );
 
     throws_ok(
         sub {
             my $n = Moment->new(
-                timestamp => 'abc',
+                year => 2200,
+                month => 1,
+                day => 1,
+                hour => 0,
+                minute => 0,
+                second => 0,
             );
         },
-        qr{Incorrect usage\. The timestamp 'abc' is not an integer number\. Stopped at},
-        'new( timestamp => "abc" )',
+        qr{Incorrect usage\. The year '2200' is not in range \[1800, 2199]\. Stopped at},
+        "new( year => 2200, ... )",
     );
+
+    my $m = Moment->new( dt => '2000-01-01 00:00:00' );
 
     throws_ok(
         sub {
-            my $n = Moment->new(
-                timestamp => 123.5,
+            my $m2 = $m->new(
+                year => 2001,
+                month => 1,
+                day => 1,
+                hour => 0,
+                minute => 0,
+                second => 0,
             );
         },
-        qr{Incorrect usage\. The timestamp '123\.5' is not an integer number\. Stopped at},
-        'new( timestamp => 123.5 )',
+        qr{Incorrect usage\. You can't run new\(\) on a variable\. Stopped at},
+        "$m->new( year => 2001, ... )",
     );
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                timestamp => 10_000_000_000,
-            );
-        },
-        qr{Incorrect usage\. The timestamp '10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
-        'new( timestamp => 10_000_000_000 )',
-    );
+}
 
-    throws_ok(
-        sub {
-            my $n = Moment->new(
-                timestamp => -10_000_000_000,
-            );
-        },
-        qr{Incorrect usage\. The timestamp '-10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
-        'new( timestamp => -10_000_000_000 )',
-    );
+sub test_new_dt {
 
     throws_ok(
         sub {
@@ -157,51 +158,58 @@ sub test_new {
         "new( dt => '2000-02-30 00:00:00' )",
     );
 
+}
+
+sub test_new_timestamp {
+
     throws_ok(
         sub {
             my $n = Moment->new(
-                year => 1799,
-                month => 12,
-                day => 31,
-                hour => 23,
-                minute => 59,
-                second => 59,
+                timestamp => undef,
             );
         },
-        qr{Incorrect usage\. The year '1799' is not in range \[1800, 2199]\. Stopped at},
-        "new( year => 1799, ... )",
+        qr{Incorrect usage\. new\(\) must get one thing from the list: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
+        'new( timestamp => undef )',
     );
 
     throws_ok(
         sub {
             my $n = Moment->new(
-                year => 2200,
-                month => 1,
-                day => 1,
-                hour => 0,
-                minute => 0,
-                second => 0,
+                timestamp => 'abc',
             );
         },
-        qr{Incorrect usage\. The year '2200' is not in range \[1800, 2199]\. Stopped at},
-        "new( year => 2200, ... )",
+        qr{Incorrect usage\. The timestamp 'abc' is not an integer number\. Stopped at},
+        'new( timestamp => "abc" )',
     );
-
-    my $m = Moment->new( dt => '2000-01-01 00:00:00' );
 
     throws_ok(
         sub {
-            my $m2 = $m->new(
-                year => 2001,
-                month => 1,
-                day => 1,
-                hour => 0,
-                minute => 0,
-                second => 0,
+            my $n = Moment->new(
+                timestamp => 123.5,
             );
         },
-        qr{Incorrect usage\. You can't run new\(\) on a variable\. Stopped at},
-        "$m->new( year => 2001, ... )",
+        qr{Incorrect usage\. The timestamp '123\.5' is not an integer number\. Stopped at},
+        'new( timestamp => 123.5 )',
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => 10_000_000_000,
+            );
+        },
+        qr{Incorrect usage\. The timestamp '10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
+        'new( timestamp => 10_000_000_000 )',
+    );
+
+    throws_ok(
+        sub {
+            my $n = Moment->new(
+                timestamp => -10_000_000_000,
+            );
+        },
+        qr{Incorrect usage\. The timestamp '-10000000000' is not in range \[-5364662400, 7258118399]\. Stopped at},
+        'new( timestamp => -10_000_000_000 )',
     );
 
 }
@@ -438,6 +446,8 @@ sub test_get_weekday_number {
 sub main_in_test {
 
     test_new();
+    test_new_dt();
+    test_new_timestamp();
     test_now();
     test_plus();
     test_minus();
