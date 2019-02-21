@@ -424,7 +424,7 @@ sub now {
         croak "Incorrect usage. You can't run now() on a variable. Stopped";
     }
 
-    my $self = Moment->new(
+    my $self = $class->new(
         timestamp => time(),
     );
 
