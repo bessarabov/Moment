@@ -7,7 +7,6 @@ before_install: cpanm --notest Devel::Cover::Report::Coveralls Test::MockTime Te
 script: echo -e "test:\n\tprove -l t xt" > Makefile; cover -test -report coveralls
 
 perl:
-  - "5.8"
   - "5.10"
   - "5.12"
   - "5.14"
