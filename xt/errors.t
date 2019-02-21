@@ -8,7 +8,7 @@ use Moment;
 sub test_new {
     throws_ok(
         sub { Moment->new(); },
-        qr{Incorrect usage\. new\(\) must get some params: dt, timestamp or year/month/day/hour/minute/second\. Stopped at},
+        qr{Incorrect usage\. new\(\) must get some params: dt, timestamp, iso_string or year/month/day/hour/minute/second\. Stopped at},
         'new()',
     );
 
