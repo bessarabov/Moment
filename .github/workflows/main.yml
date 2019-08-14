@@ -10,6 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
+    - name: Docker pull base image
+      run: docker pull perl:5.30.0
+
     - name: Build docker image
       run: docker build . --tag moment:${{ github.sha }}
 
