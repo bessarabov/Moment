@@ -13,5 +13,8 @@ jobs:
     - name: Build docker image
       run: docker build . --tag moment:${{ github.sha }}
 
-    - name: Run tests in t/
+    - name: Run test in t/
       run: docker run --rm moment:${{ github.sha }} prove -l t/
+
+    - name: Run tests in xt/
+      run: docker run --rm moment:${{ github.sha }} prove -l xt/

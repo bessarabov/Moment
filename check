@@ -1,1 +1,2 @@
 docker run --rm -it moment prove -l t/
+docker run --rm -it moment prove -l xt/
