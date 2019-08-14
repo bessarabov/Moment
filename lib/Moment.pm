@@ -189,7 +189,7 @@ sub new {
     my ($class, @params) = @_;
 
     if (@params == 0) {
-        croak "Incorrect usage. new() must get some params: dt, timestamp, iso_string or year/month/day/hour/minute/second. Stopped"
+        croak "TODO"; # "Incorrect usage. new() must get some params: dt, timestamp, iso_string or year/month/day/hour/minute/second. Stopped"
     }
 
     if (@params % 2 != 0) {
