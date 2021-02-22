@@ -13,4 +13,5 @@ RUN cpanm \
     Capture::Tiny \
     Test::Exception \
     Test::MockTime \
+    Test::Whitespaces \
     ;

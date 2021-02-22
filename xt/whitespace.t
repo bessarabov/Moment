@@ -1,0 +1,7 @@
+use Test::Whitespaces {
+
+    dirs => [
+        '.',
+    ],
+
+};
