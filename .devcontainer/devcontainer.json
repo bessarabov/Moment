@@ -1,6 +1,6 @@
 {
-	"name": "Ubuntu",
-	"build": {
-		"dockerfile": "Dockerfile",
-	}
+    "name": "Ubuntu",
+    "build": {
+        "dockerfile": "Dockerfile",
+    }
 }
