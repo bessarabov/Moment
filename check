@@ -1,2 +1,2 @@
-docker run --rm -it --volume=`pwd`/lib/:/app/lib/ --volume=`pwd`/t/:/app/t/ moment prove -l t/
-docker run --rm -it --volume=`pwd`/lib/:/app/lib/ --volume=`pwd`/xt/:/app/xt/ moment prove -l xt/
+prove -l t/
+prove -l xt/
