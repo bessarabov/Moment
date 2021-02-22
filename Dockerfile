@@ -4,6 +4,7 @@ RUN cpanm --notest \
     Capture::Tiny \
     Test::Exception \
     Test::MockTime \
+    Test::Whitespaces \
     ;
 
 COPY lib/ /app/lib/
