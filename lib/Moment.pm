@@ -132,7 +132,7 @@ Features and limitations of this library:
 
 =item * Object can't be changed after creation
 
-=item * The precise is one seond
+=item * The precise is one second
 
 =item * Working with dates in the period from '1800-01-01 00:00:00' to
 '2199-12-31 23:59:59'
