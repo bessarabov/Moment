@@ -1,0 +1,7 @@
+docker \
+    run \
+    -it \
+    --volume `pwd`:/app/ \
+    moment \
+    bash \
+    ;
