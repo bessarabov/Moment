@@ -1,24 +1,16 @@
 name: CI
-
-on:
-  push:
+on: [push]
 
 jobs:
-  build:
-
+  devcontainer-ci:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@master
+      - uses: actions/checkout@v4
 
-    - name: Docker pull base image
-      run: docker pull perl:5.38.0
-
-    - name: Build docker image
-      run: docker build . --tag moment:${{ github.sha }}
-
-    - name: Run test in t/
-      run: docker run --rm moment:${{ github.sha }} prove -l t/
-
-    - name: Run tests in xt/
-      run: docker run --rm moment:${{ github.sha }} prove -l xt/
+      - name: Build Dev Container and run tests
+        uses: devcontainers/ci@v0.3
+        with:
+          subFolder: .
+          runCmd: |
+            prove -l t/
+            prove -l xt/

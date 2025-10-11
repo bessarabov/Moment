@@ -1,12 +1,9 @@
 {
-    "name": "Ubuntu",
-    "build": {
-        "dockerfile": "Dockerfile",
-    },
-    "runArgs": [
-        "-v",
-        "${env:SSH_AUTH_SOCK}:/tmp/ssh-agent.socket",
-        "-e",
-        "SSH_AUTH_SOCK=/tmp/ssh-agent.socket"
-    ]
+  "name": "Perl 5.42 dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {}
+  }
 }
