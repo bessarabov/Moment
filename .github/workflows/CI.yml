@@ -4,16 +4,18 @@ on: [push]
 jobs:
   devcontainer-ci:
     runs-on: ubuntu-latest
+    env:
+      BUILDX_BUILDER: buildkit
+      DOCKER_BUILDKIT: "1"
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver: docker-container
-
-      - name: Use buildx builder
-        run: docker buildx use default || true && docker buildx ls
+      - name: Create and select BuildKit builder (docker-container)
+        run: |
+          docker buildx create --name buildkit --driver docker-container --use || docker buildx use buildkit
+          docker buildx inspect --bootstrap
+          docker buildx ls
 
       - name: Build Dev Container and run tests
         uses: devcontainers/ci@v0.3
