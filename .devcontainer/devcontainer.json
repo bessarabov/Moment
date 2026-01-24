@@ -1,8 +1,11 @@
 {
   "name": "Perl 5.42 dev",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/workspaces/Moment/",
+  "shutdownAction": "stopCompose",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {}
   }

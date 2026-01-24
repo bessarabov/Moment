@@ -1,0 +1,14 @@
+services:
+  dev:
+    container_name: moment_dev
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      cache_from:
+        - type=local,src=.buildx-cache/dev/
+      cache_to:
+        - type=local,dest=.buildx-cache/dev/,mode=max
+    volumes:
+      - ..:/workspaces/Moment:cached
+    working_dir: /workspaces/Moment/
+    command: sleep 315360000
