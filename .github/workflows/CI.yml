@@ -7,6 +7,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker-container
+
+      - name: Use buildx builder
+        run: docker buildx use default || true && docker buildx ls
+
       - name: Build Dev Container and run tests
         uses: devcontainers/ci@v0.3
         with:
