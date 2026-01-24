@@ -4,4 +4,8 @@ use Test::Whitespaces {
         '.',
     ],
 
+    ignore => [
+        qr{\.buildx-cache/}
+    ],
+
 };
