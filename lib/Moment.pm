@@ -54,7 +54,7 @@ moment in time:
 
     my $now = Moment->now();
 
-When you have an object you can you use methods from it.
+When you have an object you can use methods from it.
 
 Here are the methods to get the values that was used in constructor:
 
@@ -101,7 +101,7 @@ You can test if the year of the moment is leap with the method:
     $moment->is_leap_year();
 
 If you have 2 Moment objects you can compare them with the cmp() method. The
-method cmp() works exaclty as cmp builtin keyword and returns -1, 0, or 1:
+method cmp() works exactly as cmp builtin keyword and returns -1, 0, or 1:
 
     my $result = $moment_1->cmp($moment_2);
 
@@ -128,11 +128,11 @@ Features and limitations of this library:
 
 =item * Class represents only UTC time, no timezone info
 
-=item * Object orentied design
+=item * Object oriented design
 
 =item * Object can't be changed after creation
 
-=item * The precise is one second
+=item * The precision is one second
 
 =item * Working with dates in the period from '1800-01-01 00:00:00' to
 '2199-12-31 23:59:59'
@@ -601,7 +601,7 @@ moment stored in the object.
     say Moment->now()->get_day(); # 7
 
 The value that return this method is in the range [1, MAX_DAY]. Where the
-MAX_DAY depend on the month:
+MAX_DAY depends on the month:
 
     1 => 31,
     2 => 28, # 29 on leap years
@@ -946,7 +946,7 @@ sub cmp {
 
 =head2 plus()
 
-Method plus() returns new object that differ from the original to the
+Method plus() returns new object that differs from the original to the
 specified time. The class of the new object is the same as the class of the
 variable on which you run method.
 
@@ -1007,7 +1007,7 @@ sub plus {
 
 =head2 minus()
 
-Method minus() returns new object that differ from the original to the
+Method minus() returns new object that differs from the original to the
 specified time. The class of the new object is the same as the class of the
 variable on which you run method.
 
@@ -1259,11 +1259,11 @@ Find out how many seconds in one day (the answer is 86400):
 Q: Why there is no parameters 'month' and 'year' in plus() and minus()
 methods?
 
-A: It is easy to add or substidude second, minute, hour or day from some
+A: It is easy to add or substitute second, minute, hour or day from some
 date. But month and year are different. The number of days in month and year
-differ from one to anoter. Because of that some touth questions appear. For
+differ from one to another. Because of that some tough questions appear. For
 example what should we get if we add 1 year to the date 2000-02-29? To make
-this library as simple as possible, I've desided not to implement this
+this library as simple as possible, I've decided not to implement this
 feature.
 
 Q: How does this library works with leap seconds?
@@ -1272,7 +1272,7 @@ A: It does not. This library knows nothing about leap seconds.
 
 Q: How should I handle timezones with this module?
 
-A: The best practice to work with time is to work witn time in UTC timezone.
+A: The best practice to work with time is to work with time in UTC timezone.
 This means converting all inputs to UTC timezone and converting it to the
 desired timezones on output.
 
@@ -1284,7 +1284,7 @@ Moment object with the code:
 
     my $m = Moment->new( dt => '2014-12-20 18:51:20' )->minus( hour => 3 );
 
-And if you need to output the time in some special timezone you shlould to
+And if you need to output the time in some special timezone you should to
 the same thing:
 
     say $m->plus( hour => 5, minute => 30 )->get_dt();
@@ -1292,13 +1292,13 @@ the same thing:
 Q: Why there are no methods to find out the week number?
 
 A: There are several ways to define what is the first week in year. To make
-this library as simple as possible, I've desided not to implement this
+this library as simple as possible, I've decided not to implement this
 feature.
 
 Q: How to serialize this object and deserialize it?
 
 A: There are 3 ways. To use timestamp as the serialised string, to use ISO
-string, or to use dt. Timestamp, ISO string or dt contaings all the needed
+string, or to use dt. Timestamp, ISO string or dt contains all the needed
 data to recreate the object with the exact same state.
 
 Serialize timestamp:
@@ -1333,9 +1333,9 @@ implement method that you need.
 Q: Why there is a limitation that this module work only with dates in the
 range from '1800-01-01 00:00:00' to '2199-12-31 23:59:59'?
 
-A: One of the main ideas behind this libraray is simplicity. Adding this
-limitations makes the creation and testing of this library simplier. And this
-limits are enouth for real life problems.
+A: One of the main ideas behind this library is simplicity. Adding this
+limitations makes the creation and testing of this library simpler. And this
+limits are enough for real life problems.
 
 =head1 SEE ALSO
 
